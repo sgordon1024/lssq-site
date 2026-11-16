@@ -1,0 +1,11 @@
+# Cloudflare Worker settings for the editor's sign-in helper. See README.md.
+name = "lssq-cms-auth"
+main = "worker.js"
+compatibility_date = "2026-06-01"
+
+[vars]
+# The only site allowed to receive a sign-in token. Previews share this origin.
+ALLOWED_ORIGIN = "https://sgordon1024.github.io"
+
+# GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET are secrets, set with
+# `npx wrangler secret put`. They never go in this file.

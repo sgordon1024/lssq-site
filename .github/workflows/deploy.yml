@@ -1,0 +1,40 @@
+# Builds the site and puts it live on GitHub Pages (the gh-pages branch).
+# Runs on every merge to main, and once a day so past events move along on their own.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 8 * * *" # just after midnight Pacific
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          PATH_PREFIX: /lssq-site/
+      - run: touch _site/.nojekyll
+      - uses: JamesIves/github-pages-deploy-action@v4.9.0
+        with:
+          folder: _site
+          branch: gh-pages
+          # Leave the pull request previews alone.
+          clean-exclude: pr-preview/
+          # Previews push to the same branch, so rebase instead of overwriting.
+          force: false

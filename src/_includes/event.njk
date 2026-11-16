@@ -1,0 +1,42 @@
+---
+layout: base.njk
+---
+{% set past = { start: start, end: end } | isPast %}
+<article class="event">
+  <header class="event-hero echo-host">
+    <div class="wrap event-head">
+      <a class="back" href="/events/"><span aria-hidden="true">←</span> All events</a>
+      <div class="art event-art{% if not photo %} no-photo{% endif %}">{% if photo %}<img src="{{ photo }}" alt="{{ photoAlt }}">{% endif %}</div>
+      <p class="label sun">{{ start | dates(end, true) }}{% if past %} · This one's over{% endif %}{% if sample %} · <span class="tag">Sample event</span>{% endif %}</p>
+      <h1 class="echo" data-text="{{ title }}">{{ title }}</h1>
+      <p class="place">{{ place }}{% if region %} · {{ region }}{% endif %}</p>
+      <div class="actions">
+        {% if past %}
+          <a class="btn primary" href="/events/">See what's next</a>
+        {% elif chat %}
+          <a class="btn primary" href="{{ chat }}">Join the chat</a>
+        {% else %}
+          <span class="soon">The chat opens soon.</span>
+        {% endif %}
+        {% if map and not past %}<a class="btn" href="{{ map }}">Get directions</a>{% endif %}
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap event-body">
+    <div class="prose">
+      <h2>{{ "How it went" if past else "What to expect" }}</h2>
+      {{ content | safe }}
+    </div>
+    {% if bring and bring.length and not past %}
+    <aside class="bring" aria-labelledby="bring-title">
+      <h2 id="bring-title">What to bring</h2>
+      <ul>
+        {% for item in bring %}<li>{{ item }}</li>{% endfor %}
+      </ul>
+    </aside>
+    {% endif %}
+  </div>
+</article>
+
+{% include "donate.njk" %}

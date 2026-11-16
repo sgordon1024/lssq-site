@@ -1,0 +1,93 @@
+---
+layout: base.njk
+---
+{% set next = collections.upcoming[0] %}
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-inner">
+    <div class="hero-intro">
+      <p class="label">{{ site.hero.label }}</p>
+      <h1 id="hero-title">{{ site.hero.headline }}</h1>
+      <p class="lede">{{ site.hero.text }}</p>
+      <a class="btn" href="/events/">See all events</a>
+    </div>
+
+    {% if next %}
+    <article class="next-card echo-host" aria-labelledby="next-title">
+      <div class="art next-art">{% if next.data.photo %}<img src="{{ next.data.photo }}" alt="{{ next.data.photoAlt }}">{% endif %}</div>
+      <p class="label sun">Next up · {{ next.data.start | dates(next.data.end) }}{% if next.data.sample %} · <span class="tag">Sample</span>{% endif %}</p>
+      <h2 class="echo" id="next-title" data-text="{{ next.data.title }}"><a href="{{ next.url }}">{{ next.data.title }}</a></h2>
+      <p class="place">{{ next.data.place }}</p>
+      <div class="actions">
+        {% if next.data.chat %}
+          <a class="btn primary" href="{{ next.data.chat }}">Join the chat</a>
+          <a class="btn" href="{{ next.url }}">Details</a>
+        {% else %}
+          <a class="btn primary" href="{{ next.url }}">Details</a>
+          <span class="soon">Chat opens soon</span>
+        {% endif %}
+      </div>
+    </article>
+    {% else %}
+    <div class="next-card empty">
+      <p class="label sun">Next up</p>
+      <h2>The next one is coming soon.</h2>
+      <p class="place">Follow along on <a href="{{ site.contact.instagram }}">Instagram</a> to hear first.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section about" id="about" aria-labelledby="about-title">
+  <div class="wrap about-inner">
+    <div class="about-text">
+      <p class="label">What is LSSQ</p>
+      <h2 id="about-title">{{ site.about.headline }}</h2>
+      <p>{{ site.about.text }}</p>
+    </div>
+    <ul class="pillars">
+      {% set colors = ["var(--cyan)", "var(--sun)", "var(--pink)", "var(--lav)"] %}
+      {% for pillar in site.about.pillars %}
+      <li style="--c: {{ colors[loop.index0 % 4] }}"><h3>{{ pillar.name }}</h3><p>{{ pillar.text }}</p></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section soon-section" id="events" aria-labelledby="events-title">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="label">Coming up</p>
+      <h2 id="events-title">Save the weekend.</h2>
+    </div>
+    {% if collections.upcoming.length %}
+    <ul class="ev-list">
+      {% for e in collections.upcoming | head(4) %}{% include "event-row.njk" %}{% endfor %}
+    </ul>
+    <p class="more"><a href="/events/">All events <span aria-hidden="true">→</span></a></p>
+    {% else %}
+    <p class="empty-note">Nothing on the calendar yet. Follow along on <a href="{{ site.contact.instagram }}">Instagram</a> to hear first.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section journey" id="story" aria-labelledby="story-title">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="label">Our journey</p>
+      <h2 id="story-title">{{ site.story.headline }}</h2>
+      <p>{{ site.story.text }}</p>
+    </div>
+  </div>
+  {% if collections.past.length %}
+  <div class="road" aria-hidden="true"></div>
+  <div class="wrap">
+    <ol class="stops" aria-label="Past events">
+      {% for e in collections.past %}
+      <li><a href="{{ e.url }}"><small>{{ e.data.start | monthYear }}</small><b>{{ e.data.title }}</b><span>{{ e.data.place }}{% if e.data.region %}, {{ e.data.region }}{% endif %}</span></a></li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+</section>
+
+{% include "donate.njk" %}

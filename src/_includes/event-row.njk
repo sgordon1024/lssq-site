@@ -1,0 +1,11 @@
+{# One upcoming event as a row: date chip, name and place, chat link. Expects `e`. #}
+<li class="ev">
+  <span class="date" aria-hidden="true"><b>{{ e.data.start | day }}</b>{{ e.data.start | mon }}</span>
+  <div class="ev-body">
+    <h3><a href="{{ e.url }}">{{ e.data.title }}</a>{% if e.data.sample %} <span class="tag">Sample</span>{% endif %}</h3>
+    <p>{{ e.data.start | dates(e.data.end) }} · {{ e.data.place }}</p>
+  </div>
+  <div class="ev-chat">
+    {% if e.data.chat %}<a href="{{ e.data.chat }}">Join the chat</a>{% else %}<span>Chat opens soon</span>{% endif %}
+  </div>
+</li>

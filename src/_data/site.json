@@ -1,0 +1,37 @@
+{
+  "tagline": "Different location every month. Same family every time.",
+  "hero": {
+    "label": "Different location every month",
+    "headline": "Your people are out here.",
+    "text": "A monthly gathering for nomads. Music, play, wellness and connection, somewhere new every month."
+  },
+  "about": {
+    "headline": "Strangers become family.",
+    "text": "LSSQ pops up somewhere new each month: a desert lot, a mountain forest, the Baja coast. Everyone brings their own gifts and talents to share, and the four pillars do the rest.",
+    "pillars": [
+      { "name": "Wellness", "text": "Morning yoga, sound baths and slow coffee." },
+      { "name": "Play", "text": "Games, side quests and whatever someone dreams up." },
+      { "name": "Music", "text": "Jams, DJ sets and songs around the fire." },
+      { "name": "Connection", "text": "Strangers on Friday, family by Sunday." }
+    ]
+  },
+  "story": {
+    "headline": "It started with one Saturday.",
+    "text": "LSSQ began as single-day meetups on the last Saturday of the month. People kept asking for more, so it grew into weekend-long gatherings, shaped by the people who show up. The four pillars have stayed the same the whole way."
+  },
+  "donate": {
+    "headline": "Keep the quest going.",
+    "text": "LSSQ runs almost entirely on donations. Every bit helps cover the land, the power and the little things that make a weekend.",
+    "links": [
+      { "label": "Patreon", "url": "https://lastsaturdaysidequest.odoo.com/" },
+      { "label": "Venmo", "url": "https://lastsaturdaysidequest.odoo.com/" },
+      { "label": "PayPal", "url": "https://lastsaturdaysidequest.odoo.com/" }
+    ]
+  },
+  "contact": {
+    "headline": "Say hi.",
+    "text": "Questions about an event, or want to share a gift or talent at the next one? The quickest way to reach us is a message on Instagram.",
+    "email": "",
+    "instagram": "https://www.instagram.com/lastsaturdaysidequest/"
+  }
+}

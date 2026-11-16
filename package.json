@@ -1,0 +1,16 @@
+{
+  "name": "lssq-site",
+  "private": true,
+  "description": "A site for Last Saturday Side Quest that Jake can update without a developer.",
+  "type": "module",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "cms": "decap-server"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.8",
+    "decap-server": "3.11.6"
+  },
+  "engines": { "node": ">=20" }
+}

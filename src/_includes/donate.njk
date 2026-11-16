@@ -1,0 +1,16 @@
+<section class="give" id="donate" aria-labelledby="donate-title">
+  <div class="wrap give-inner">
+    <div class="give-text">
+      <h2 id="donate-title">{{ site.donate.headline }}</h2>
+      <p>{{ site.donate.text }}</p>
+    </div>
+    <div class="give-side">
+      <ul class="give-links">
+        {% for link in site.donate.links %}
+        <li><a class="btn {{ 'deep' if loop.first else 'ink' }}" href="{{ link.url }}">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+      {% if meta.sample %}<p class="give-note">In this sample, these go to LSSQ's current site.</p>{% endif %}
+    </div>
+  </div>
+</section>

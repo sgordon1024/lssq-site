@@ -1,0 +1,21 @@
+---
+title: Baja Weekend
+start: 2026-11-27
+end: 2026-11-29
+place: On the coast, south of Ensenada
+region: Baja California, Mexico
+summary: Music by the fire, morning yoga and a potluck on Saturday night.
+photo: ""
+photoAlt: ""
+chat: ""
+map: ""
+bring:
+  - A chair
+  - Something to share for the potluck
+  - Layers for cold nights by the water
+  - Your own cup and plate
+sample: true
+---
+Three days on the coast with your people. Friday is for rolling in and finding your spot. Saturday starts slow with yoga and coffee, then turns into games, a jam and a long potluck dinner. Sunday we clean up together and say see you next month.
+
+Bring whatever you're good at. Someone always teaches something, and someone always plays something.

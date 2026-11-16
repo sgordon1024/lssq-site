@@ -1,0 +1,24 @@
+---
+layout: base.njk
+title: Contact
+permalink: /contact/
+description: How to reach Last Saturday Side Quest.
+---
+<section class="wrap page-head contact" aria-labelledby="page-title">
+  <p class="label">Contact</p>
+  <h1 id="page-title">{{ site.contact.headline }}</h1>
+  <p class="lede">{{ site.contact.text }}</p>
+  <div class="actions">
+    <a class="btn primary" href="{{ site.contact.instagram }}">Message us on Instagram</a>
+    {% if site.contact.email %}<a class="btn" href="mailto:{{ site.contact.email }}">Email {{ site.contact.email }}</a>{% endif %}
+  </div>
+</section>
+
+<section class="wrap contact-more" aria-labelledby="more-title">
+  <h2 id="more-title" class="list-title">Good to know</h2>
+  <ul class="cards three">
+    <li class="card plain"><h3>Coming to an event?</h3><p>Each event page has its own chat link. That's the best place for rides, camp spots and gear.</p><p class="card-chat"><a href="/events/">See events</a></p></li>
+    <li class="card plain"><h3>Bring a gift or talent</h3><p>Teach a class, lead a jam, cook a meal. Tell us what you'd like to share and we'll find it a spot.</p></li>
+    <li class="card plain"><h3>Help keep it going</h3><p>LSSQ runs on donations and the people who pitch in.</p><p class="card-chat"><a href="/#donate">Ways to give</a></p></li>
+  </ul>
+</section>

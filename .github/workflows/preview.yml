@@ -1,0 +1,56 @@
+# Builds a preview of every pull request, including each draft saved in the editor,
+# at /lssq-site/pr-preview/pr-N/. Then it posts a "deploy/preview" status so the
+# editor can show a "View preview" link. The preview is removed when the PR closes.
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  statuses: write
+
+concurrency:
+  group: preview-${{ github.event.number }}
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        if: github.event.action != 'closed'
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+        if: github.event.action != 'closed'
+      - run: npm run build
+        if: github.event.action != 'closed'
+        env:
+          PATH_PREFIX: /lssq-site/pr-preview/pr-${{ github.event.number }}/
+      - uses: rossjrw/pr-preview-action@v1.8.2
+        id: preview
+        with:
+          source-dir: _site
+          umbrella-dir: pr-preview
+          wait-for-pages-deployment: true
+      - name: Tell the editor where the preview is
+        if: steps.preview.outputs.deployment-action == 'deploy'
+        uses: actions/github-script@v9
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request.head.sha,
+              state: "success",
+              context: "deploy/preview",
+              description: "The preview is ready",
+              target_url: process.env.PREVIEW_URL,
+            });

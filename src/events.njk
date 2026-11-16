@@ -1,0 +1,42 @@
+---
+layout: base.njk
+title: Events
+permalink: /events/
+description: Every upcoming Last Saturday Side Quest weekend, and the places we've been.
+---
+<section class="wrap page-head" aria-labelledby="page-title">
+  <p class="label">Events</p>
+  <h1 id="page-title">Where we're headed.</h1>
+  <p class="lede">A new place every month, on the weekend of the last Saturday. Each one has its own chat, so you can plan rides, gear and who's bringing the speaker.</p>
+</section>
+
+<section class="wrap list-section" aria-labelledby="upcoming-title">
+  <h2 id="upcoming-title" class="list-title">Coming up</h2>
+  {% if collections.upcoming.length %}
+  <ul class="cards">
+    {% for e in collections.upcoming %}
+    <li class="card">
+      <div class="art card-art">{% if e.data.photo %}<img src="{{ e.data.photo }}" alt="{{ e.data.photoAlt }}" loading="lazy">{% endif %}</div>
+      <p class="label sun">{{ e.data.start | dates(e.data.end) }}{% if e.data.sample %} · <span class="tag">Sample</span>{% endif %}</p>
+      <h3><a href="{{ e.url }}">{{ e.data.title }}</a></h3>
+      <p class="place">{{ e.data.place }}{% if e.data.region %} · {{ e.data.region }}{% endif %}</p>
+      <p>{{ e.data.summary }}</p>
+      <p class="card-chat">{% if e.data.chat %}<a href="{{ e.data.chat }}">Join the chat</a>{% else %}<span>Chat opens soon</span>{% endif %}</p>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="empty-note">Nothing on the calendar yet. Follow along on <a href="{{ site.contact.instagram }}">Instagram</a> to hear first.</p>
+  {% endif %}
+</section>
+
+{% if collections.past.length %}
+<section class="wrap list-section" aria-labelledby="past-title">
+  <h2 id="past-title" class="list-title">Where we've been</h2>
+  <ol class="stops">
+    {% for e in collections.past %}
+    <li><a href="{{ e.url }}"><small>{{ e.data.start | monthYear }}</small><b>{{ e.data.title }}</b><span>{{ e.data.place }}{% if e.data.region %}, {{ e.data.region }}{% endif %}</span></a></li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
