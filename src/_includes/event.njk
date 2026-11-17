@@ -2,14 +2,37 @@
 layout: base.njk
 ---
 {% set past = { start: start, end: end } | isPast %}
+{% set ev = { start: start, end: end, arrive: arrive } %}
+{% set days = start | daysUntil %}
 <article class="event">
   <header class="event-hero echo-host">
     <div class="wrap event-head">
       <a class="back" href="/events/"><span aria-hidden="true">←</span> All events</a>
-      <div class="art event-art{% if not photo %} no-photo{% endif %}">{% if photo %}<img src="{{ photo }}" alt="{{ photoAlt }}">{% endif %}</div>
+      <figure class="art event-art{% if not photo %} no-photo{% endif %}">
+        {% if photo %}<img src="{{ photo }}" alt="{{ photoAlt }}">{% endif %}
+        {% if not past %}
+        {# Counts down to the first day's arrival time. Without JavaScript it shows days only. #}
+        <div class="countdown" data-countdown="full" data-start="{{ ev | startsAt }}" data-end="{{ ev | endsAt }}">
+          <p class="cd-label">{{ "Starts in" if days > 0 else "Happening now" }}</p>
+          <p class="cd-units"{% if days <= 0 %} hidden{% endif %}>
+            <span class="cd-unit"><b data-unit="d">{{ days }}</b><small>days</small></span>
+            <span class="cd-unit" data-live hidden><b data-unit="h">00</b><small>hrs</small></span>
+            <span class="cd-unit" data-live hidden><b data-unit="m">00</b><small>min</small></span>
+            <span class="cd-unit" data-live hidden><b data-unit="s">00</b><small>sec</small></span>
+          </p>
+          <p class="cd-now"{% if days > 0 %} hidden{% endif %}>Come find us by the fire.</p>
+        </div>
+        {% endif %}
+        {% if photo and photoCredit %}<figcaption class="credit">{{ photoCredit }}</figcaption>{% endif %}
+      </figure>
       <p class="label sun">{{ start | dates(end, true) }}{% if past %} · This one's over{% endif %}{% if sample %} · <span class="tag">Sample event</span>{% endif %}</p>
       <h1 class="echo" data-text="{{ title }}">{{ title }}</h1>
       <p class="place">{{ place }}{% if region %} · {{ region }}{% endif %}</p>
+      {% if highlights and highlights.length and not past %}
+      <ul class="moments" aria-label="What you'll find">
+        {% for h in highlights %}<li>{{ h }}</li>{% endfor %}
+      </ul>
+      {% endif %}
       <div class="actions">
         {% if past %}
           <a class="btn primary" href="/events/">See what's next</a>
@@ -18,7 +41,7 @@ layout: base.njk
         {% else %}
           <span class="soon">The chat opens soon.</span>
         {% endif %}
-        {% if map and not past %}<a class="btn" href="{{ map }}">Get directions</a>{% endif %}
+        {% if not past %}<a class="btn" href="#getting-there">{{ "Get directions" if (coords | latLng) else "Where is it?" }}</a>{% endif %}
       </div>
     </div>
   </header>
@@ -28,13 +51,18 @@ layout: base.njk
       <h2>{{ "How it went" if past else "What to expect" }}</h2>
       {{ content | safe }}
     </div>
-    {% if bring and bring.length and not past %}
-    <aside class="bring" aria-labelledby="bring-title">
-      <h2 id="bring-title">What to bring</h2>
-      <ul>
-        {% for item in bring %}<li>{{ item }}</li>{% endfor %}
-      </ul>
-    </aside>
+    {% if not past %}
+    <div class="event-side">
+      {% include "getting-there.njk" %}
+      {% if bring and bring.length %}
+      <aside class="bring" aria-labelledby="bring-title">
+        <h2 id="bring-title">What to bring</h2>
+        <ul>
+          {% for item in bring %}<li>{{ item }}</li>{% endfor %}
+        </ul>
+      </aside>
+      {% endif %}
+    </div>
     {% endif %}
   </div>
 </article>

@@ -5,10 +5,14 @@ end: 2026-11-01
 place: Lake Shasta
 region: California
 summary: Halloween weekend at Lake Shasta.
-photo: ""
-photoAlt: ""
+highlights: []
+photo: /img/lssq/shasta-aerial.webp
+photoAlt: Aerial view of Lake Shasta winding between mountains, with a camp on the shoreline.
+photoCredit: Photo from LSSQ
 chat: ""
-map: ""
+coords: ""
+directions: ""
+reveal: ""
 bring: []
 sample: false
 ---

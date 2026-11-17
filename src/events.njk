@@ -21,6 +21,7 @@ description: Every upcoming Last Saturday Side Quest weekend, and the places we'
       <h3><a href="{{ e.url }}">{{ e.data.title }}</a></h3>
       <p class="place">{{ e.data.place }}{% if e.data.region %} · {{ e.data.region }}{% endif %}</p>
       <p>{{ e.data.summary }}</p>
+      <p class="spot-line">{% if e.data.coords | latLng %}{% icon "pin" %} The spot is set{% else %}{% icon "mystery" %} Spot drops around {{ e.data | revealDate | dates }}{% endif %}</p>
       <p class="card-chat">{% if e.data.chat %}<a href="{{ e.data.chat }}">Join the chat</a>{% else %}<span>Chat opens soon</span>{% endif %}</p>
     </li>
     {% endfor %}
@@ -33,10 +34,6 @@ description: Every upcoming Last Saturday Side Quest weekend, and the places we'
 {% if collections.past.length %}
 <section class="wrap list-section" aria-labelledby="past-title">
   <h2 id="past-title" class="list-title">Where we've been</h2>
-  <ol class="stops">
-    {% for e in collections.past %}
-    <li><a href="{{ e.url }}"><small>{{ e.data.start | monthYear }}</small><b>{{ e.data.title }}</b><span>{{ e.data.place }}{% if e.data.region %}, {{ e.data.region }}{% endif %}</span></a></li>
-    {% endfor %}
-  </ol>
+  {% include "stops.njk" %}
 </section>
 {% endif %}

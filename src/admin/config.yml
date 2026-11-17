@@ -59,23 +59,49 @@ collections:
         picker_utc: true
         required: false
         hint: Leave empty for a one-day event.
+      - label: Arrive from
+        name: arrive
+        widget: datetime
+        format: HH:mm
+        date_format: false
+        time_format: h:mm A
+        required: false
+        hint: When people can roll in on the first day. The countdown runs to this. Leave empty for noon.
       - { label: Where, name: place, widget: string, hint: "Short, like: On the coast, south of Ensenada." }
       - { label: Region, name: region, widget: string, required: false, hint: "Like: Baja California, Mexico." }
       - { label: One-line summary, name: summary, widget: string, hint: "Shows on the events list." }
-      - { label: Photo, name: photo, widget: image, required: false, choose_url: false, hint: "Wide photos work best." }
+      - label: Highlights
+        name: highlights
+        widget: list
+        required: false
+        max: 4
+        hint: Two to four short things people will do, like Morning yoga. They show on the photo cards.
+        field: { label: Highlight, name: highlight, widget: string }
+      - { label: Photo, name: photo, widget: image, required: false, choose_url: false, hint: "Wide photos work best. One from a past weekend is even better." }
       - { label: Photo description, name: photoAlt, widget: string, required: false, hint: "What's in the photo, for people who can't see it." }
+      - { label: Photo credit, name: photoCredit, widget: string, required: false, hint: "Who took it, like: Photo by Sam. Shows small on the photo." }
       - label: Chat link
         name: chat
         widget: string
         required: false
         hint: The WhatsApp group invite link. Leave empty until it's ready.
         pattern: ["^(https://.*)?$", "Paste the full link, starting with https://"]
-      - label: Map link
-        name: map
+      - label: Coordinates
+        name: coords
         widget: string
         required: false
-        hint: A Google Maps link to the spot. It only shows before the event.
-        pattern: ["^(https://.*)?$", "Paste the full link, starting with https://"]
+        hint: "The exact spot, like 31.7246, -116.7196. In Google Maps, press and hold the spot to copy them. Until you add these, the page says the spot is a secret and when it drops."
+        pattern: ["^(\\s*-?\\d{1,2}(\\.\\d+)?\\s*,\\s*-?\\d{1,3}(\\.\\d+)?\\s*)?$", "Two numbers with a comma between, like 31.7246, -116.7196"]
+      - { label: Directions, name: directions, widget: text, required: false, hint: "Anything the map won't tell people, like: The last stretch is a dirt road." }
+      - label: Spot drops on
+        name: reveal
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: MMM D, YYYY
+        time_format: false
+        picker_utc: true
+        required: false
+        hint: When you expect to share the coordinates. Leave empty and the page guesses 30 days before the first day.
       - label: What to bring
         name: bring
         widget: list
@@ -91,10 +117,10 @@ collections:
 
   - name: site
     label: Site words
-    description: The words on the home and contact pages.
+    description: The words on the home, story and contact pages.
     files:
       - name: words
-        label: Home and contact pages
+        label: Home, story and contact pages
         file: src/_data/site.json
         fields:
           - { label: Tagline, name: tagline, widget: string, hint: "Shows in the footer." }
@@ -120,12 +146,41 @@ collections:
                 fields:
                   - { label: Name, name: name, widget: string }
                   - { label: Text, name: text, widget: string }
-          - label: Our journey
+                  - label: Icon
+                    name: icon
+                    widget: select
+                    options:
+                      - { label: Sun, value: sun }
+                      - { label: Die, value: die }
+                      - { label: Music notes, value: notes }
+                      - { label: Heart, value: heart }
+          - label: Photos from past weekends
+            name: gallery
+            widget: list
+            hint: The first two show next to the next event on the home page.
+            summary: "{{fields.alt}}"
+            fields:
+              - { label: Photo, name: photo, widget: image, choose_url: false }
+              - { label: Photo description, name: alt, widget: string }
+          - label: Our story page
             name: story
             widget: object
             fields:
               - { label: Headline, name: headline, widget: string }
               - { label: Text, name: text, widget: text }
+              - { label: Big photo, name: photo, widget: image, required: false, choose_url: false }
+              - { label: Photo description, name: photoAlt, widget: string, required: false }
+              - { label: Photo credit, name: photoCredit, widget: string, required: false }
+              - label: Chapters
+                name: chapters
+                widget: list
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Text, name: text, widget: text }
+                  - { label: Photo, name: photo, widget: image, required: false, choose_url: false }
+                  - { label: Photo description, name: photoAlt, widget: string, required: false }
+                  - { label: Photo credit, name: photoCredit, widget: string, required: false }
           - label: Donate
             name: donate
             widget: object

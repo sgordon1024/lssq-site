@@ -2,13 +2,21 @@
 title: Desert Holiday Weekend
 start: 2026-12-25
 end: 2026-12-27
-place: Place to come
+arrive: "12:00"
+place: Somewhere in the desert
 region: ""
 summary: A cozy weekend for anyone on the road for the holidays.
-photo: ""
-photoAlt: ""
+highlights:
+  - Holiday potluck
+  - Stargazing
+  - Gift swap
+photo: /img/stock/desert-tents.jpg
+photoAlt: Two tents glowing orange at dusk in a rocky desert under a cloudy sky.
+photoCredit: Stock photo by hany mohamed, Unsplash
 chat: ""
-map: ""
+coords: ""
+directions: ""
+reveal: ""
 bring:
   - A chair
   - A dish to share

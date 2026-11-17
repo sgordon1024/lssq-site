@@ -2,13 +2,21 @@
 title: Baja Weekend
 start: 2026-11-27
 end: 2026-11-29
+arrive: "12:00"
 place: On the coast, south of Ensenada
 region: Baja California, Mexico
 summary: Music by the fire, morning yoga and a potluck on Saturday night.
-photo: ""
-photoAlt: ""
+highlights:
+  - Morning yoga
+  - Music by the fire
+  - Saturday potluck
+photo: /img/stock/baja-bonfire.jpg
+photoAlt: Friends in silhouette building a fire on a beach at sunset, the sea calm behind them.
+photoCredit: Stock photo by Kimson Doan, Unsplash
 chat: ""
-map: ""
+coords: "31.7246, -116.7196"
+directions: The last stretch is a dirt road. Any car can make it if you take it slow.
+reveal: ""
 bring:
   - A chair
   - Something to share for the potluck
