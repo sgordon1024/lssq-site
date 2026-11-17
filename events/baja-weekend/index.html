@@ -16,7 +16,7 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<p class="sample-bar">A sample build, not LSSQ's official site. Upcoming events are made up. <a href="https://lastsaturdaysidequest.odoo.com/">Visit the real site</a></p>
+<p class="sample-bar">A sample build, not LSSQ's official site. Upcoming events are made up, and some photos are stock. <a href="https://lastsaturdaysidequest.odoo.com/">Visit the real site</a></p>
 
 <header class="top">
   <div class="wrap top-inner">
@@ -24,7 +24,7 @@
     <nav aria-label="Main">
       <ul class="nav">
         <li><a href="/lssq-site/events/" aria-current="page">Events</a></li>
-        <li><a href="/lssq-site/#story">Our story</a></li>
+        <li><a href="/lssq-site/story/">Our story</a></li>
         <li><a href="/lssq-site/contact/">Contact</a></li>
       </ul>
     </nav>
@@ -34,19 +34,42 @@
 
 <main id="main">
 
+
+
 <article class="event">
   <header class="event-hero echo-host">
     <div class="wrap event-head">
       <a class="back" href="/lssq-site/events/"><span aria-hidden="true">←</span> All events</a>
-      <div class="art event-art no-photo"></div>
+      <figure class="art event-art">
+        <img src="/lssq-site/img/stock/baja-bonfire.jpg" alt="Friends in silhouette building a fire on a beach at sunset, the sea calm behind them.">
+        
+        
+        <div class="countdown" data-countdown="full" data-start="2026-11-27T12:00:00-08:00" data-end="2026-11-30T00:00:00-08:00">
+          <p class="cd-label">Starts in</p>
+          <p class="cd-units">
+            <span class="cd-unit"><b data-unit="d">11</b><small>days</small></span>
+            <span class="cd-unit" data-live="" hidden=""><b data-unit="h">00</b><small>hrs</small></span>
+            <span class="cd-unit" data-live="" hidden=""><b data-unit="m">00</b><small>min</small></span>
+            <span class="cd-unit" data-live="" hidden=""><b data-unit="s">00</b><small>sec</small></span>
+          </p>
+          <p class="cd-now" hidden="">Come find us by the fire.</p>
+        </div>
+        
+        <figcaption class="credit">Stock photo by Kimson Doan, Unsplash</figcaption>
+      </figure>
       <p class="label sun">Nov 27 to 29, 2026 · <span class="tag">Sample event</span></p>
       <h1 class="echo" data-text="Baja Weekend">Baja Weekend</h1>
       <p class="place">On the coast, south of Ensenada · Baja California, Mexico</p>
+      
+      <ul class="moments" aria-label="What you'll find">
+        <li>Morning yoga</li><li>Music by the fire</li><li>Saturday potluck</li>
+      </ul>
+      
       <div class="actions">
         
           <span class="soon">The chat opens soon.</span>
         
-        
+        <a class="btn" href="#getting-there">Get directions</a>
       </div>
     </div>
   </header>
@@ -59,12 +82,35 @@
 
     </div>
     
-    <aside class="bring" aria-labelledby="bring-title">
-      <h2 id="bring-title">What to bring</h2>
-      <ul>
-        <li>A chair</li><li>Something to share for the potluck</li><li>Layers for cold nights by the water</li><li>Your own cup and plate</li>
-      </ul>
-    </aside>
+    <div class="event-side">
+      
+
+<section class="spot" id="getting-there" aria-labelledby="spot-title">
+  
+  <div class="spot-head"><svg class="icon spot-icon" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M24 42s12-11.2 12-21a12 12 0 0 0-24 0c0 9.8 12 21 12 21z"></path><circle cx="24" cy="21" r="4"></circle></svg><h2 id="spot-title">Getting there</h2></div>
+  <p class="spot-coords">
+    <span class="coords">31.7246, -116.7196</span>
+    <button class="copy" type="button" data-copy="31.7246, -116.7196" hidden="">Copy</button>
+    <span class="visually-hidden" role="status" data-copy-status=""></span>
+  </p>
+  <div class="actions">
+    <a class="btn primary small" href="https://www.google.com/maps/dir/?api=1&amp;destination=31.7246,-116.7196">Google Maps</a>
+    <a class="btn small" href="https://maps.apple.com/?daddr=31.7246,-116.7196">Apple Maps</a>
+  </div>
+  <p class="spot-note">The last stretch is a dirt road. Any car can make it if you take it slow.</p>
+  <iframe class="spot-map" src="https://www.openstreetmap.org/export/embed.html?bbox=-116.7496,31.7066,-116.6896,31.7426&amp;layer=mapnik&amp;marker=31.7246,-116.7196" title="Map of the spot" loading="lazy"></iframe>
+  
+</section>
+
+      
+      <aside class="bring" aria-labelledby="bring-title">
+        <h2 id="bring-title">What to bring</h2>
+        <ul>
+          <li>A chair</li><li>Something to share for the potluck</li><li>Layers for cold nights by the water</li><li>Your own cup and plate</li>
+        </ul>
+      </aside>
+      
+    </div>
     
   </div>
 </article>
@@ -100,6 +146,7 @@
       <p class="foot-tag">Different location every month. Same family every time.</p>
       <ul class="foot-links">
         <li><a href="/lssq-site/events/">Events</a></li>
+        <li><a href="/lssq-site/story/">Our story</a></li>
         <li><a href="/lssq-site/contact/">Contact</a></li>
         <li><a href="https://www.instagram.com/lastsaturdaysidequest/">Instagram</a></li>
         <li><a href="/lssq-site/#donate">Donate</a></li>
