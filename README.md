@@ -14,19 +14,26 @@ A sample site for Last Saturday Side Quest, built so Jake can update it without 
 
 Past events move to "Where we've been" on their own. The site rebuilds every night.
 
+**The spot.** The exact spot is usually picked about a month out. Until an event has **Coordinates**, its page says the spot is a secret and when it drops (the **Spot drops on** date, or 30 days before the first day). Add the coordinates and the page shows them with a Copy button, Google and Apple Maps buttons and a small map.
+
+**The countdown** on each event's photo runs to **Arrive from** on the first day (noon if it's empty), Pacific time.
+
 ## What's where
 
 | Path | What it is |
 | --- | --- |
 | `src/events/*.md` | One file per event: details up top, the description below |
-| `src/_data/site.json` | The words on the home and contact pages |
+| `src/_data/site.json` | The words on the home, story and contact pages, the pillar icons and the past-weekend photos |
+| `src/story.njk` | The Our story page |
+| `src/img/lssq/` | Photos from LSSQ's own site |
+| `src/img/stock/` | Stock photos from Unsplash, standing in until there are real ones |
 | `src/_includes/` | Page layouts and shared pieces |
-| `src/assets/site.css`, `site.js` | The design, and two small touches (the logo's first-visit draw-in, the stripe echo on phones) |
+| `src/assets/site.css`, `site.js` | The design, plus small touches: the logo draws in on first visit and on hover, the countdowns tick, the Copy button, the stripe echo on phones |
 | `src/brand/` | Logo and pattern SVGs, copied from the workshop repo. Change them there, not here |
 | `src/admin/` | The editor (Decap CMS) and its settings |
 | `auth/` | The editor's sign-in helper, a small Cloudflare Worker |
 | `.github/workflows/` | `deploy.yml` puts `main` live; `preview.yml` builds a preview of every pull request |
-| `eleventy.config.js` | The build (Eleventy): dates, upcoming and past events |
+| `eleventy.config.js` | The build (Eleventy): dates, upcoming and past events, the countdown and spot helpers, and the line icons |
 
 ## Run it locally
 
@@ -53,4 +60,5 @@ To let someone edit, add them as a collaborator on this repo. They need a free G
 - Event dates are `YYYY-MM-DD`. "Today" is Pacific time.
 - Links in templates start with `/`. The build adds `/lssq-site/` (or the preview's folder) from `PATH_PREFIX`.
 - The brand rules (colors, type, logo use) are on the workshop's [brand page](https://sgordon1024.github.io/lssq/brand/).
+- **Photo credits:** every stock photo says so in its credit line, and the sample bar says some photos are stock. Unsplash photos are free to use under the Unsplash License. Swap them for real LSSQ photos when Jake has them.
 - GitHub pauses the nightly rebuild after 60 days with no commits. Turn it back on from the Actions tab.

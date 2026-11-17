@@ -1,0 +1,13 @@
+{# Past events as photo stops along the road. Used on the events and story pages. #}
+<ol class="stops">
+  {% for e in collections.past %}
+  <li>
+    <a href="{{ e.url }}">
+      {% if e.data.photo %}<img src="{{ e.data.photo }}" alt="" loading="lazy">{% endif %}
+      <small>{{ e.data.start | monthYear }}</small>
+      <b>{{ e.data.title }}</b>
+      <span>{{ e.data.place }}{% if e.data.region %}, {{ e.data.region }}{% endif %}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ol>

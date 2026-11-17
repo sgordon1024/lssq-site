@@ -2,13 +2,21 @@
 title: Hot Springs Weekend
 start: 2027-01-29
 end: 2027-01-31
-place: Place to come
+arrive: "12:00"
+place: Near a hot spring
 region: ""
 summary: Warm water, cold nights and a long dinner table.
-photo: ""
-photoAlt: ""
+highlights:
+  - A long soak
+  - Dinner for everyone
+  - Fire on a cold night
+photo: /img/stock/hot-spring.jpg
+photoAlt: A woman soaking in a natural hot spring between grassy banks, snowy mountains behind.
+photoCredit: Stock photo by Joshua Sortino, Unsplash
 chat: ""
-map: ""
+coords: ""
+directions: ""
+reveal: ""
 bring:
   - A towel
   - Sandals

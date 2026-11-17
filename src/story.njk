@@ -1,0 +1,58 @@
+---
+layout: base.njk
+title: Our story
+permalink: /story/
+description: How Last Saturday Side Quest grew from one Saturday a month into a moving family of nomads.
+---
+<section class="story-hero echo-host" aria-labelledby="page-title">
+  <div class="wrap story-head">
+    <p class="label">Our story</p>
+    <h1 class="echo" id="page-title" data-text="{{ site.story.headline }}">{{ site.story.headline }}</h1>
+    <p class="lede">{{ site.story.text }}</p>
+  </div>
+  {% if site.story.photo %}
+  <figure class="wrap story-photo">
+    <div class="art"><img src="{{ site.story.photo }}" alt="{{ site.story.photoAlt }}"></div>
+    {% if site.story.photoCredit %}<figcaption class="credit">{{ site.story.photoCredit }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
+</section>
+
+<section class="wrap chapters" aria-label="How it grew">
+  <ol>
+    {% for c in site.story.chapters %}
+    <li class="chapter">
+      {% if c.photo %}
+      <figure class="chapter-photo">
+        <img src="{{ c.photo }}" alt="{{ c.photoAlt }}" loading="lazy">
+        {% if c.photoCredit %}<figcaption class="credit">{{ c.photoCredit }}</figcaption>{% endif %}
+      </figure>
+      {% endif %}
+      <div class="chapter-text">
+        <span class="chapter-n" aria-hidden="true">{{ "0" if loop.index < 10 }}{{ loop.index }}</span>
+        <h2>{{ c.title }}</h2>
+        <p>{{ c.text }}</p>
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+
+{% if collections.past.length %}
+<section class="section journey" aria-labelledby="road-title">
+  <div class="wrap section-head">
+    <p class="label">Where we've been</p>
+    <h2 id="road-title">Every stop on the road.</h2>
+  </div>
+  <div class="road" aria-hidden="true"></div>
+  <div class="wrap">{% include "stops.njk" %}</div>
+</section>
+{% endif %}
+
+<section class="wrap story-cta" aria-labelledby="cta-title">
+  <h2 id="cta-title">{{ site.hero.headline }}</h2>
+  <p class="lede">{{ site.tagline }}</p>
+  <a class="btn primary" href="/events/">See what's coming up</a>
+</section>
+
+{% include "donate.njk" %}

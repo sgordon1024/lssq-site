@@ -9,23 +9,81 @@
     "headline": "Strangers become family.",
     "text": "LSSQ pops up somewhere new each month: a desert lot, a mountain forest, the Baja coast. Everyone brings their own gifts and talents to share, and the four pillars do the rest.",
     "pillars": [
-      { "name": "Wellness", "text": "Morning yoga, sound baths and slow coffee." },
-      { "name": "Play", "text": "Games, side quests and whatever someone dreams up." },
-      { "name": "Music", "text": "Jams, DJ sets and songs around the fire." },
-      { "name": "Connection", "text": "Strangers on Friday, family by Sunday." }
+      {
+        "name": "Wellness",
+        "text": "Morning yoga, sound baths and slow coffee.",
+        "icon": "sun"
+      },
+      {
+        "name": "Play",
+        "text": "Games, side quests and whatever someone dreams up.",
+        "icon": "die"
+      },
+      {
+        "name": "Music",
+        "text": "Jams, DJ sets and songs around the fire.",
+        "icon": "notes"
+      },
+      {
+        "name": "Connection",
+        "text": "Strangers on Friday, family by Sunday.",
+        "icon": "heart"
+      }
     ]
   },
   "story": {
     "headline": "It started with one Saturday.",
-    "text": "LSSQ began as single-day meetups on the last Saturday of the month. People kept asking for more, so it grew into weekend-long gatherings, shaped by the people who show up. The four pillars have stayed the same the whole way."
+    "text": "LSSQ began as single-day meetups on the last Saturday of the month, somewhere new each time. People kept asking for more, so it grew into weekend-long gatherings, shaped by the people who show up.",
+    "photo": "/img/lssq/sunset-camp.webp",
+    "photoAlt": "A pink and orange sunset over a dirt lot of vans, trucks and tents, with wooded hills behind.",
+    "photoCredit": "Photo from LSSQ",
+    "chapters": [
+      {
+        "title": "One Saturday a month",
+        "text": "The idea was simple: pick a spot, roll in on the last Saturday of the month and meet your people. A new place every time, from desert lots to mountain forests to the Baja coast.",
+        "photo": "/img/lssq/group-selfie.webp",
+        "photoAlt": "A crowd of smiling people squeezed into a selfie on a grassy field, arms in the air.",
+        "photoCredit": "Photo from LSSQ"
+      },
+      {
+        "title": "Then whole weekends",
+        "text": "One day was never enough. The meetups grew into weekends, with time to settle in on Friday, be together all Saturday and pack up slowly on Sunday.",
+        "photo": "/img/lssq/group-costumes.webp",
+        "photoAlt": "A big group in bright costumes and wigs grinning for a photo outdoors under a grey sky.",
+        "photoCredit": "Photo from LSSQ"
+      },
+      {
+        "title": "Everyone brings something",
+        "text": "There's no lineup. People share their own gifts and talents: a yoga class, a jam, a meal for everyone. Wellness, play, music and connection hold it all together.",
+        "photo": "/img/stock/campfire-guitar.jpg",
+        "photoAlt": "A hand playing guitar by a campfire at night.",
+        "photoCredit": "Stock photo by Vitaly Gariev, Unsplash"
+      },
+      {
+        "title": "Kept going by the family",
+        "text": "LSSQ runs almost entirely on donations. Every bit covers the land, the power and the little things that make a weekend feel like home.",
+        "photo": "/img/stock/beach-yoga.jpg",
+        "photoAlt": "People doing yoga on a beach at sunset, in silhouette against the sea.",
+        "photoCredit": "Stock photo by Tomi Saputra, Unsplash"
+      }
+    ]
   },
   "donate": {
     "headline": "Keep the quest going.",
     "text": "LSSQ runs almost entirely on donations. Every bit helps cover the land, the power and the little things that make a weekend.",
     "links": [
-      { "label": "Patreon", "url": "https://lastsaturdaysidequest.odoo.com/" },
-      { "label": "Venmo", "url": "https://lastsaturdaysidequest.odoo.com/" },
-      { "label": "PayPal", "url": "https://lastsaturdaysidequest.odoo.com/" }
+      {
+        "label": "Patreon",
+        "url": "https://lastsaturdaysidequest.odoo.com/"
+      },
+      {
+        "label": "Venmo",
+        "url": "https://lastsaturdaysidequest.odoo.com/"
+      },
+      {
+        "label": "PayPal",
+        "url": "https://lastsaturdaysidequest.odoo.com/"
+      }
     ]
   },
   "contact": {
@@ -33,5 +91,23 @@
     "text": "Questions about an event, or want to share a gift or talent at the next one? The quickest way to reach us is a message on Instagram.",
     "email": "",
     "instagram": "https://www.instagram.com/lastsaturdaysidequest/"
-  }
+  },
+  "gallery": [
+    {
+      "photo": "/img/lssq/group-selfie.webp",
+      "alt": "A crowd of smiling people squeezed into a selfie on a grassy field, arms in the air."
+    },
+    {
+      "photo": "/img/lssq/group-costumes.webp",
+      "alt": "A big group in bright costumes and wigs grinning for a photo outdoors under a grey sky."
+    },
+    {
+      "photo": "/img/lssq/sunset-camp.webp",
+      "alt": "A pink and orange sunset over a dirt lot of vans, trucks and tents."
+    },
+    {
+      "photo": "/img/lssq/shasta-aerial.webp",
+      "alt": "Aerial view of Lake Shasta winding between mountains, with a camp on the shoreline."
+    }
+  ]
 }

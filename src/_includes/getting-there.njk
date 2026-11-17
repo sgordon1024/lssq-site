@@ -1,0 +1,28 @@
+{# Where the event is. The exact spot is usually picked about a month out, so until
+   there are coordinates this says when they'll drop instead. #}
+{% set ev = { start: start, reveal: reveal } %}
+<section class="spot{% if not (coords | latLng) %} is-secret{% endif %}" id="getting-there" aria-labelledby="spot-title">
+  {% if coords | latLng %}
+  <div class="spot-head">{% icon "pin", "spot-icon" %}<h2 id="spot-title">Getting there</h2></div>
+  <p class="spot-coords">
+    <span class="coords">{{ coords }}</span>
+    <button class="copy" type="button" data-copy="{{ coords }}" hidden>Copy</button>
+    <span class="visually-hidden" role="status" data-copy-status></span>
+  </p>
+  <div class="actions">
+    <a class="btn primary small" href="{{ coords | mapLink }}">Google Maps</a>
+    <a class="btn small" href="{{ coords | mapLink('apple') }}">Apple Maps</a>
+  </div>
+  {% if directions %}<p class="spot-note">{{ directions }}</p>{% endif %}
+  <iframe class="spot-map" src="{{ coords | mapEmbed }}" title="Map of the spot" loading="lazy"></iframe>
+  {% else %}
+  {% set dropDays = ev | revealDate | daysUntil %}
+  <div class="spot-head">{% icon "mystery", "spot-icon" %}<h2 id="spot-title">The spot is a secret, for now</h2></div>
+  <p>We pick the exact spot about a month out{% if region %}, somewhere in {{ region }}{% endif %}.</p>
+  <p class="spot-drop">
+    {% if ev | revealDue %}Any day now. Keep an eye on the chat.
+    {% else %}Coordinates drop around <b>{{ ev | revealDate | dates }}</b>{% if dropDays > 1 %}, in {{ dropDays }} days{% endif %}, right here and in the chat.{% endif %}
+  </p>
+  {% if chat %}<a class="btn small" href="{{ chat }}">Join the chat</a>{% else %}<a class="btn small" href="{{ site.contact.instagram }}">Follow on Instagram to hear first</a>{% endif %}
+  {% endif %}
+</section>
