@@ -159,7 +159,8 @@
 
   // 4. Touch screens have no hover, so the stripe echo comes in once the event name scrolls into view.
   if (!reduce && window.matchMedia("(hover: none)").matches && "IntersectionObserver" in window) {
-    document.querySelectorAll(".echo").forEach(function (el) {
+    // The home headline is left to home.js, which waits until its words have risen in.
+    document.querySelectorAll(".echo:not(.h-title)").forEach(function (el) {
       var watch = new IntersectionObserver(function (entries) {
         if (entries[0].isIntersecting) { el.classList.add("on"); watch.disconnect(); }
       }, { threshold: 0.6 });

@@ -5,8 +5,16 @@
 // Without them, or with reduced motion, the page is a plain scroll and loses nothing.
 (function () {
   var root = document.documentElement;
+  var title = document.querySelector(".h-title");
+  // Once the headline's words are in, unclip them; on touch screens (no hover) the stripes then come out.
+  var titleIn = function () {
+    if (!title) return;
+    title.classList.add("is-in");
+    if (window.matchMedia("(hover: none)").matches) setTimeout(function () { title.classList.add("on"); }, 250);
+  };
   if (!root.classList.contains("motion") || !window.gsap || !window.ScrollTrigger) {
     root.classList.add("home-still");
+    titleIn();
     return;
   }
   var gsap = window.gsap;
@@ -29,7 +37,7 @@
   // 1. The entrance. If we came in through the stripe wipe, wait for it to lift.
   var intro = gsap.timeline({ delay: root.classList.contains("wipe-in") ? 0.42 : 0.08 });
   intro
-    .fromTo(".h-title .w > span", { yPercent: 115, autoAlpha: 1 }, { yPercent: 0, duration: 1, ease: "expo.out", stagger: 0.07 })
+    .fromTo(".h-title .w > span", { yPercent: 115, autoAlpha: 1 }, { yPercent: 0, duration: 1, ease: "expo.out", stagger: 0.07, onComplete: titleIn })
     .fromTo(".h-stage [data-enter]", { y: 26, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out", stagger: 0.08 }, "-=0.7")
     .fromTo("[data-toss]", {
       autoAlpha: 0,
@@ -138,34 +146,33 @@
     if (img) gsap.fromTo(img, { scale: 1.16 }, { scale: 1, ease: "none", scrollTrigger: growScroll() });
   }
 
-  // 7. The donate band's Q spins like a record while you scroll past it. When you
-  //    stop, it coasts on in the same direction and eases to rest the right way up.
+  // 7. The donate band's Q makes one slow turn as you scroll from the band's first
+  //    peek to the bottom of the page, so it lands upright there. If you stop partway,
+  //    it eases back to the nearest upright position.
   var give = $(".give");
-  if (give && lenis) {
-    var angle = 0, spin = 0, dir = 1, rest = null, giveOn = false;
-    ScrollTrigger.create({ trigger: give, start: "top bottom", end: "bottom top", onToggle: function (self) { giveOn = self.isActive; } });
-    lenis.on("scroll", function (l) {
-      if (!giveOn || Math.abs(l.velocity) < 0.5) return;
-      spin = gsap.utils.clamp(-12, 12, l.velocity * 0.6);
-      dir = spin > 0 ? 1 : -1;
-      rest = null;
+  if (give) {
+    var target = 0, shown = 0, offset = 0, idle = null;
+    var settle = function () {
+      var rest = Math.round(target / 360) * 360;
+      offset += rest - target;
+      target = rest;
+    };
+    var turn = ScrollTrigger.create({
+      trigger: give, start: "top bottom", end: "max",
+      onUpdate: function (self) {
+        target = self.progress * 360 + offset;
+        clearTimeout(idle);
+        idle = setTimeout(settle, 180);
+      },
     });
+    // Opening the page partway down shouldn't set it spinning: start it upright where it is.
+    target = turn.progress * 360;
+    settle();
+    shown = target;
     gsap.ticker.add(function () {
-      if (rest === null) {
-        if (!spin && angle % 360 === 0) return;
-        spin *= 0.95;
-        if (Math.abs(spin) > 2) angle += spin;
-        // Slow enough: pick the next upright turn ahead of it.
-        else rest = (dir > 0 ? Math.ceil(angle / 360) : Math.floor(angle / 360)) * 360;
-      }
-      if (rest !== null) {
-        var left = rest - angle;
-        var step = Math.min(Math.max(Math.abs(spin) * 0.95, 1.5), Math.abs(left) * 0.08);
-        spin = dir * step;
-        angle += dir * step;
-        if (Math.abs(left) < 0.05) { angle = rest; spin = 0; rest = null; }
-      }
-      give.style.setProperty("--spin", angle.toFixed(2) + "deg");
+      if (shown === target) return;
+      shown = Math.abs(target - shown) < 0.05 ? target : shown + (target - shown) * 0.08;
+      give.style.setProperty("--spin", shown.toFixed(2) + "deg");
     });
   }
 
