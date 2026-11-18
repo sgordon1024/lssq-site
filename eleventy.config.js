@@ -1,6 +1,6 @@
 // Builds the LSSQ site from plain content files: one Markdown file per event in
-// src/events/, and the site's words in src/_data/site.json. Jake edits both
-// through the editor at /admin/ (Decap CMS).
+// src/events/, and the site's words in src/_data/site.json. Jake edits both with an
+// AI assistant (see AGENTS.md), or later through the editor at /admin/ (Decap CMS).
 import { EleventyHtmlBasePlugin } from "@11ty/eleventy";
 
 // Events are in the American West and Baja, so "today" is Pacific time.

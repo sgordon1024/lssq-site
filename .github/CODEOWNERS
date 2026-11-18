@@ -1,0 +1,9 @@
+# Who has to OK a change before it goes live.
+# Design and code (everything by default) need Steve's review. Content doesn't: the
+# events, the site's words and photos can be published once the check passes.
+# The lines with no name after them mean "no review needed".
+*                                   @sgordon1024
+/src/events/
+/src/events/events.11tydata.json    @sgordon1024
+/src/_data/site.json
+/src/img/
