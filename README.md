@@ -23,7 +23,7 @@ Past events move to "Where we've been" on their own. The site rebuilds every nig
 | Path | What it is |
 | --- | --- |
 | `src/events/*.md` | One file per event: details up top, the description below |
-| `src/_data/site.json` | The words on the home, story and contact pages, the pillars (icons, photos, handwritten notes) and the past-weekend photos |
+| `src/_data/site.json` | The words on the home, story and contact pages, the ribbon lines, the pillars (what you'll find, three photos, four stickers, a handwritten note) and the past-weekend photos |
 | `src/story.njk` | The Our story page |
 | `src/img/lssq/` | Photos from LSSQ's own site |
 | `src/img/stock/` | Stock photos from Unsplash, standing in until there are real ones |
@@ -35,7 +35,7 @@ Past events move to "Where we've been" on their own. The site rebuilds every nig
 | `src/admin/` | The editor (Decap CMS) and its settings |
 | `auth/` | The editor's sign-in helper, a small Cloudflare Worker |
 | `.github/workflows/` | `deploy.yml` puts `main` live; `preview.yml` builds a preview of every pull request |
-| `eleventy.config.js` | The build (Eleventy): dates, upcoming and past events, the countdown and spot helpers, and the line icons |
+| `eleventy.config.js` | The build (Eleventy): dates, upcoming and past events, the countdown and spot helpers, the line icons, the solid sticker icons (`{% sticker "name" %}`, for anything big or turned) and the ribbon's evenly spaced stripes |
 
 ## Run it locally
 

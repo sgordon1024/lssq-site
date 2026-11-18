@@ -140,7 +140,7 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 
 /* Donate band, on cream, with the logo's Q blown up behind it and running off the edge. */
 .give { position: relative; overflow: hidden; isolation: isolate; padding-block: 88px; background: var(--cream); color: var(--ink); }
-.give::before { content: ""; position: absolute; z-index: -1; right: -140px; top: 50%; width: clamp(560px, 56vw, 820px); aspect-ratio: 1; background: url(../brand/f-q.svg) center / contain no-repeat; transform: translateY(-46%) rotate(-10deg); pointer-events: none; }
+.give::before { content: ""; position: absolute; z-index: -1; right: -140px; top: 50%; width: clamp(560px, 56vw, 820px); aspect-ratio: 1; background: url(../brand/f-q.svg) center / contain no-repeat; transform: translateY(-46%); pointer-events: none; }
 .give-inner { display: grid; grid-template-columns: minmax(0, 560px); gap: 24px; }
 .give-text { display: grid; gap: 12px; }
 .give-text p { color: #3d4644; font-size: 18px; max-width: 48ch; }
@@ -256,10 +256,11 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 .chapter:nth-child(even) .chapter-photo { transform: rotate(1.2deg); }
 .chapter-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .chapter-text { display: grid; gap: 12px; max-width: 46ch; }
-.chapter-n { font-family: var(--display); font-weight: 900; font-variation-settings: "SOFT" 100, "WONK" 1; font-size: clamp(56px, 7vw, 84px); line-height: .9; color: var(--ink); -webkit-text-stroke: 2px var(--sun); text-shadow: .05em .05em 0 var(--cyan), .1em .1em 0 var(--pink); }
-.chapter:nth-child(4n+2) .chapter-n { -webkit-text-stroke-color: var(--cyan); }
-.chapter:nth-child(4n+3) .chapter-n { -webkit-text-stroke-color: var(--pink); }
-.chapter:nth-child(4n) .chapter-n { -webkit-text-stroke-color: var(--lav); }
+/* Chapter numbers: solid, with the stripe echo stepping out behind (ink gaps between). */
+.chapter-n { --n: var(--sun); --x1: var(--cyan); --x2: var(--pink); font-family: var(--display); font-weight: 900; font-variation-settings: "SOFT" 100, "WONK" 1; font-size: clamp(56px, 7vw, 84px); line-height: .9; color: var(--n); text-shadow: .03em .03em 0 var(--ink), .06em .06em 0 var(--x1), .09em .09em 0 var(--ink), .12em .12em 0 var(--x2); }
+.chapter:nth-child(4n+2) .chapter-n { --n: var(--cyan); --x1: var(--sun); }
+.chapter:nth-child(4n+3) .chapter-n { --n: var(--pink); --x1: var(--cyan); --x2: var(--sun); }
+.chapter:nth-child(4n) .chapter-n { --n: var(--lav); }
 .chapter-text p { color: #d9dfdc; font-size: 18px; }
 .journey { padding-bottom: 32px; }
 .story-cta { display: grid; gap: 16px; justify-items: center; padding-block: 48px 96px; text-align: center; }
@@ -292,7 +293,7 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
   .event-body { grid-template-columns: 1fr; }
   /* Narrower screens: the Q hangs from the top right, tail first, above the headline. */
   .give { padding-block: 230px 72px; }
-  .give::before { top: -210px; right: -60px; width: 440px; transform: rotate(-10deg); }
+  .give::before { top: -210px; right: -60px; width: 440px; transform: none; }
   .cards.three { grid-template-columns: 1fr; }
   .chapter { grid-template-columns: 1fr; }
   .chapter:nth-child(even) .chapter-photo { order: 0; }

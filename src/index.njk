@@ -33,7 +33,7 @@ home: true
     <span class="sticker sq" data-speed="0.5" data-pop aria-hidden="true"><img src="/brand/f-q.svg" alt=""></span>
     {% set c = ["var(--cyan)", "var(--sun)", "var(--pink)", "var(--lav)"] %}
     {% for pillar in site.about.pillars | head(2) %}
-    <span class="sticker sp{{ loop.index }}" style="--c: {{ c[loop.index0 * 2] }}" data-speed="{{ stickerSpeeds[loop.index0] }}" data-pop aria-hidden="true">{% icon pillar.icon %}</span>
+    <span class="sticker sp{{ loop.index }}" style="--c: {{ c[loop.index0 * 2] }}" data-speed="{{ stickerSpeeds[loop.index0] }}" data-pop aria-hidden="true">{% sticker pillar.icon %}</span>
     {% endfor %}
     {% if next %}
     <a class="next-badge" href="{{ next.url }}" data-speed="-0.15" data-pop><span class="nb-face">
@@ -49,14 +49,14 @@ home: true
   </div>
 </section>
 
-{# The tagline rides along the ribbon. Decorative: the same words are in the footer. #}
+{# Short, useful lines ride along the ribbon, starting with the next weekend. Hidden from
+   screen readers because it moves; the same facts are on this page and the event pages. #}
 <div class="h-ribbon" aria-hidden="true">
-  <svg viewBox="0 0 1600 240" preserveAspectRatio="xMidYMid slice">
-    <defs><path id="ribbon-line" d="M-800 140 C-600 60 -400 60 -200 140 S200 220 400 140 S800 60 1000 140 S1400 220 1600 140 S2000 60 2200 140 S2600 220 2800 140" /></defs>
-    <use href="#ribbon-line" class="rb-cyan" transform="translate(0 -51)" />
-    <use href="#ribbon-line" class="rb-band" />
-    <use href="#ribbon-line" class="rb-pink" transform="translate(0 51)" />
-    <text class="rb-text" dy="20"><textPath href="#ribbon-line" startOffset="0">{% for i in range(4) %}{{ site.tagline | upper }} ✦ {% endfor %}</textPath></text>
+  <svg viewBox="0 0 1600 260" preserveAspectRatio="xMidYMid slice">
+    <path class="rb-cyan" d="{{ 60 | ribbonPath }}" />
+    <path id="rb-line" class="rb-band" d="{{ 0 | ribbonPath }}" />
+    <path class="rb-pink" d="{{ -60 | ribbonPath }}" />
+    <text class="rb-text" dy="14" data-reps="2"><textPath href="#rb-line" startOffset="0">{% for i in range(2) %}{% if next %}{{ ("Next up: " + next.data.title + ", " + (next.data.start | dates(next.data.end))) | upper }}<tspan class="rb-star"> ✦ </tspan>{% endif %}{% for t in site.ribbon %}{{ t | upper }}<tspan class="rb-star"> ✦ </tspan>{% endfor %}{% endfor %}</textPath></text>
   </svg>
 </div>
 
@@ -71,18 +71,33 @@ home: true
       </div>
       <p class="hand hp-hint" aria-hidden="true">four things hold it together<svg viewBox="0 0 120 40"><path d="M4 20h104" /><path d="M96 9l13 11-13 11" /></svg></p>
     </div>
+    {#- Each pillar is a scrapbook page: the word, what you'll find, three taped photos,
+        four stickers and a handwritten note. -#}
     {% set colors = ["var(--cyan)", "var(--sun)", "var(--pink)", "var(--lav)"] %}
+    {% set accents = ["var(--pink)", "var(--cyan)", "var(--sun)", "var(--sun)"] %}
+    {% set printTilts = [5, -6, -3] %}
+    {% set printDepth = [1, 1.4, 0.7] %}
+    {% set stickerDepth = [1, -1.2, 1.5, -0.8] %}
     {% for pillar in site.about.pillars %}
-    <article class="hp-panel hp-pillar" style="--c: {{ colors[loop.index0 % 4] }}; --len: {{ pillar.name | length }}" aria-labelledby="pillar-{{ loop.index }}">
-      <h3 class="hp-word" id="pillar-{{ loop.index }}">{{ pillar.name }}</h3>
-      <span class="hp-sticker" aria-hidden="true">{% icon pillar.icon %}</span>
-      {% if pillar.photo %}
-      <figure class="print hp-print" style="--r: {{ tilts[loop.index0 + 1] }}deg">
-        <img src="{{ pillar.photo }}" alt="{{ pillar.photoAlt }}" loading="lazy">
-        {% if pillar.photoCredit %}<figcaption>{{ pillar.photoCredit }}</figcaption>{% endif %}
-      </figure>
-      {% endif %}
-      <p class="hp-text">{{ pillar.text }}</p>
+    <article class="hp-panel hp-pillar" style="--c: {{ colors[loop.index0 % 4] }}; --c2: {{ accents[loop.index0 % 4] }}; --len: {{ pillar.name | length }}" aria-labelledby="pillar-{{ loop.index }}">
+      <div class="hp-core">
+        <h3 class="hp-word" id="pillar-{{ loop.index }}">{{ pillar.name }}</h3>
+        {% if pillar.things and pillar.things.length %}
+        <ul class="hp-things" aria-label="{{ pillar.name }} at LSSQ">{% for t in pillar.things %}<li>{{ t }}</li>{% endfor %}</ul>
+        {% endif %}
+        <p class="hp-text">{{ pillar.text }}</p>
+      </div>
+      <div class="hp-art">
+        {% for p in pillar.photos | head(3) %}
+        <figure class="print hp-print hp-print-{{ loop.index }}" style="--r: {{ printTilts[loop.index0] }}deg" data-depth="{{ printDepth[loop.index0] }}">
+          <img src="{{ p.photo }}" alt="{{ p.alt }}" loading="lazy">
+          {% if p.credit %}<figcaption>{{ p.credit }}</figcaption>{% endif %}
+        </figure>
+        {% endfor %}
+        {% for st in pillar.stickers | head(4) %}
+        <span class="hp-sticker hp-sticker-{{ loop.index }}" aria-hidden="true" data-depth="{{ stickerDepth[loop.index0] }}">{% sticker st %}</span>
+        {% endfor %}
+      </div>
       {% if pillar.note %}<p class="hand hp-note" aria-hidden="true">{{ pillar.note }}</p>{% endif %}
     </article>
     {% endfor %}

@@ -12,7 +12,9 @@
   var gsap = window.gsap;
   var ScrollTrigger = window.ScrollTrigger;
   gsap.registerPlugin(ScrollTrigger);
-  var $ = function (sel, el) { return (el || document).querySelector(sel); };
+  // Keep transforms 2D, so turned stickers and prints are redrawn sharp, not stretched as a bitmap.
+  gsap.config({ force3D: false });
+  var $ =function (sel, el) { return (el || document).querySelector(sel); };
   var $$ = function (sel, el) { return gsap.utils.toArray(sel, el); };
 
   // Smooth scrolling, on GSAP's clock so every scroll scene stays in step with it.
@@ -56,12 +58,14 @@
   });
   gsap.to(".h-stage", { yPercent: 18, scale: 0.94, autoAlpha: 0.35, ease: "none", scrollTrigger: heroScroll });
 
-  // 3. The tagline runs along the ribbon, faster while you scroll, backwards if you scroll up.
+  // 3. The lines run along the ribbon, faster while you scroll, backwards if you scroll up.
+  //    The text is written out twice (data-reps), so one copy's length is one full loop.
   var path = $(".rb-text textPath");
   if (path) {
     var text = path.parentNode;
+    var reps = parseInt(text.getAttribute("data-reps"), 10) || 2;
     var loop = 0;
-    try { loop = text.getSubStringLength(0, Math.round(path.textContent.length / 4)); } catch (e) { loop = 0; }
+    try { loop = text.getSubStringLength(0, Math.round(path.textContent.length / reps)); } catch (e) { loop = 0; }
     var offset = 0, push = 0, onScreen = false;
     ScrollTrigger.create({ trigger: ".h-ribbon", start: "top bottom", end: "bottom top", onToggle: function (self) { onScreen = self.isActive; } });
     if (lenis) lenis.on("scroll", function (l) { push = gsap.utils.clamp(-5, 14, l.velocity * 0.3); });
@@ -75,8 +79,21 @@
     });
   }
 
-  // 4. The pillars slide sideways on big screens. Each word drifts against the
-  //    slide, the stickers spin and the prints bob, so the scene has depth.
+  // 4. The pillars slide sideways on big screens. The words drift against the slide,
+  //    and each photo and sticker moves at its own depth (data-depth), so every page
+  //    feels layered. On smaller screens they stack, and the bits bob as you scroll.
+  var baseTurn = function (el) { return parseFloat(getComputedStyle(el).getPropertyValue("--r")) || 0; };
+  var depthOf = function (el) { return parseFloat(el.getAttribute("data-depth")) || 1; };
+  var layer = function (panel, scroll, amount) {
+    $$(".hp-print", panel).forEach(function (el) {
+      var d = depthOf(el) * amount;
+      gsap.fromTo(el, { yPercent: 18 * d }, { yPercent: -18 * d, ease: "none", scrollTrigger: scroll() });
+    });
+    $$(".hp-sticker", panel).forEach(function (el) {
+      var d = depthOf(el) * amount, r = baseTurn(el), lift = 60 * Math.abs(d);
+      gsap.fromTo(el, { rotation: r - 40 * d, y: lift }, { rotation: r + 40 * d, y: -lift, ease: "none", scrollTrigger: scroll() });
+    });
+  };
   var mm = gsap.matchMedia();
   mm.add("(min-width: 900px) and (min-height: 560px)", function () {
     var section = $(".h-pillars");
@@ -91,15 +108,17 @@
     });
     $$(".hp-pillar", section).forEach(function (panel) {
       var along = function () { return { trigger: panel, containerAnimation: slide, start: "left right", end: "right left", scrub: true }; };
-      gsap.fromTo($(".hp-word", panel), { xPercent: 22 }, { xPercent: -22, ease: "none", scrollTrigger: along() });
-      var sticker = $(".hp-sticker", panel);
-      if (sticker) gsap.fromTo(sticker, { rotation: -35, y: 70 }, { rotation: 30, y: -50, ease: "none", scrollTrigger: along() });
-      var print = $(".hp-print", panel);
-      if (print) gsap.fromTo(print, { yPercent: 22 }, { yPercent: -18, ease: "none", scrollTrigger: along() });
+      gsap.fromTo($(".hp-word", panel), { xPercent: 16 }, { xPercent: -16, ease: "none", scrollTrigger: along() });
       var note = $(".hp-note", panel);
       if (note) gsap.fromTo(note, { xPercent: 40 }, { xPercent: -40, ease: "none", scrollTrigger: along() });
+      layer(panel, along, 1);
     });
     return function () { section.classList.remove("is-sideways"); };
+  });
+  mm.add("(max-width: 899px), (max-height: 559px)", function () {
+    $$(".hp-pillar").forEach(function (panel) {
+      layer(panel, function () { return { trigger: panel, start: "top bottom", end: "bottom top", scrub: true }; }, 0.5);
+    });
   });
 
   // 5. The photo wall: each print flies in and lands at its own angle.
@@ -119,12 +138,34 @@
     if (img) gsap.fromTo(img, { scale: 1.16 }, { scale: 1, ease: "none", scrollTrigger: growScroll() });
   }
 
-  // 7. The donate band's Q turns like a record while it's on screen.
+  // 7. The donate band's Q spins like a record while you scroll past it. When you
+  //    stop, it coasts on in the same direction and eases to rest the right way up.
   var give = $(".give");
-  if (give) {
-    ScrollTrigger.create({
-      trigger: give, start: "top bottom", end: "bottom top",
-      onUpdate: function (self) { give.style.setProperty("--spin", (self.progress * 150).toFixed(1) + "deg"); },
+  if (give && lenis) {
+    var angle = 0, spin = 0, dir = 1, rest = null, giveOn = false;
+    ScrollTrigger.create({ trigger: give, start: "top bottom", end: "bottom top", onToggle: function (self) { giveOn = self.isActive; } });
+    lenis.on("scroll", function (l) {
+      if (!giveOn || Math.abs(l.velocity) < 0.5) return;
+      spin = gsap.utils.clamp(-12, 12, l.velocity * 0.6);
+      dir = spin > 0 ? 1 : -1;
+      rest = null;
+    });
+    gsap.ticker.add(function () {
+      if (rest === null) {
+        if (!spin && angle % 360 === 0) return;
+        spin *= 0.95;
+        if (Math.abs(spin) > 2) angle += spin;
+        // Slow enough: pick the next upright turn ahead of it.
+        else rest = (dir > 0 ? Math.ceil(angle / 360) : Math.floor(angle / 360)) * 360;
+      }
+      if (rest !== null) {
+        var left = rest - angle;
+        var step = Math.min(Math.max(Math.abs(spin) * 0.95, 1.5), Math.abs(left) * 0.08);
+        spin = dir * step;
+        angle += dir * step;
+        if (Math.abs(left) < 0.05) { angle = rest; spin = 0; rest = null; }
+      }
+      give.style.setProperty("--spin", angle.toFixed(2) + "deg");
     });
   }
 

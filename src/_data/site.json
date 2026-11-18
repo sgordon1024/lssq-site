@@ -1,5 +1,13 @@
 {
   "tagline": "Different location every month. Same family every time.",
+  "ribbon": [
+    "A new spot every month",
+    "The last weekend of the month",
+    "Funded by donations",
+    "The spot drops about a month out",
+    "Everyone brings a gift to share",
+    "Every weekend has its own chat"
+  ],
   "hero": {
     "label": "Different location every month",
     "headline": "Your people are out here.",
@@ -14,36 +22,140 @@
         "name": "Wellness",
         "text": "Morning yoga, sound baths and slow coffee.",
         "icon": "sun",
-        "photo": "/img/stock/beach-yoga.jpg",
-        "photoAlt": "People doing yoga on a beach at sunset, in silhouette against the sea.",
-        "photoCredit": "Stock photo by Tomi Saputra, Unsplash",
+        "things": [
+          "Sunrise yoga",
+          "Sound baths",
+          "Slow coffee",
+          "Quiet mornings"
+        ],
+        "photos": [
+          {
+            "photo": "/img/stock/beach-yoga.jpg",
+            "alt": "People doing yoga on a beach at sunset, in silhouette against the sea.",
+            "credit": "Stock photo by Tomi Saputra, Unsplash"
+          },
+          {
+            "photo": "/img/stock/river-meditation.jpg",
+            "alt": "A woman meditating on a rock in a shallow river.",
+            "credit": "Stock photo by Gokul Gurung, Unsplash"
+          },
+          {
+            "photo": "/img/stock/camp-mugs.jpg",
+            "alt": "Two green enamel mugs on a log.",
+            "credit": "Stock photo by Shelby Cohron, Unsplash"
+          }
+        ],
+        "stickers": [
+          "sun",
+          "leaf",
+          "mug",
+          "moon"
+        ],
         "note": "the 7am crew"
       },
       {
         "name": "Play",
         "text": "Games, side quests and whatever someone dreams up.",
         "icon": "die",
-        "photo": "/img/lssq/group-costumes.webp",
-        "photoAlt": "A big group in bright costumes and wigs grinning for a photo outdoors.",
-        "photoCredit": "Photo from LSSQ",
+        "things": [
+          "Costume nights",
+          "Lawn games",
+          "Side quests",
+          "Hoops and flow"
+        ],
+        "photos": [
+          {
+            "photo": "/img/lssq/group-costumes.webp",
+            "alt": "A big group in bright costumes and wigs grinning for a photo outdoors.",
+            "credit": "Photo from LSSQ"
+          },
+          {
+            "photo": "/img/stock/hula-hoop.jpg",
+            "alt": "Someone spinning a hula hoop on the grass at an outdoor gathering.",
+            "credit": "Stock photo by Gene Gallin, Unsplash"
+          },
+          {
+            "photo": "/img/stock/festival-colors.jpg",
+            "alt": "Friends with bright hair and costumes grinning for a selfie.",
+            "credit": "Stock photo by Рома Морозов, Unsplash"
+          }
+        ],
+        "stickers": [
+          "die",
+          "star",
+          "sparkle",
+          "smiley"
+        ],
         "note": "costumes always welcome"
       },
       {
         "name": "Music",
         "text": "Jams, DJ sets and songs around the fire.",
         "icon": "notes",
-        "photo": "/img/stock/campfire-guitar.jpg",
-        "photoAlt": "A hand playing guitar by a campfire at night.",
-        "photoCredit": "Stock photo by Vitaly Gariev, Unsplash",
+        "things": [
+          "Fireside jams",
+          "DJ sets",
+          "Drum circles",
+          "Open mic"
+        ],
+        "photos": [
+          {
+            "photo": "/img/stock/campfire-guitar.jpg",
+            "alt": "A hand playing guitar by a campfire at night.",
+            "credit": "Stock photo by Vitaly Gariev, Unsplash"
+          },
+          {
+            "photo": "/img/stock/djembe.jpg",
+            "alt": "A man playing a djembe outdoors.",
+            "credit": "Stock photo by Richard Sagredo, Unsplash"
+          },
+          {
+            "photo": "/img/stock/sunset-dance.jpg",
+            "alt": "People dancing in the dust at sunset.",
+            "credit": "Stock photo by Philipp, Unsplash"
+          }
+        ],
+        "stickers": [
+          "notes",
+          "record",
+          "mic",
+          "bolt"
+        ],
         "note": "bring your instrument!"
       },
       {
         "name": "Connection",
         "text": "Strangers on Friday, family by Sunday.",
         "icon": "heart",
-        "photo": "/img/lssq/group-selfie.webp",
-        "photoAlt": "A crowd of smiling people squeezed into a selfie on a grassy field.",
-        "photoCredit": "Photo from LSSQ",
+        "things": [
+          "Potlucks",
+          "Skill shares",
+          "Campfire talks",
+          "Ride shares"
+        ],
+        "photos": [
+          {
+            "photo": "/img/lssq/group-selfie.webp",
+            "alt": "A crowd of smiling people squeezed into a selfie on a grassy field.",
+            "credit": "Photo from LSSQ"
+          },
+          {
+            "photo": "/img/stock/campfire-friends.jpg",
+            "alt": "Friends laughing around a campfire in the woods, one playing guitar.",
+            "credit": "Stock photo by Vitaly Gariev, Unsplash"
+          },
+          {
+            "photo": "/img/stock/campfire-circle.jpg",
+            "alt": "Friends gathered around a campfire at night.",
+            "credit": "Stock photo by James Sestric, Unsplash"
+          }
+        ],
+        "stickers": [
+          "heart",
+          "fire",
+          "tent",
+          "chat"
+        ],
         "note": "met these folks on Friday"
       }
     ]
