@@ -26,7 +26,7 @@ home: true
   <div class="h-collage">
     {% for g in site.gallery | head(4) %}
     <figure class="print hp{{ loop.index }}" style="--r: {{ tilts[loop.index0] }}deg" data-speed="{{ speeds[loop.index0] }}" data-toss>
-      <img src="{{ g.photo }}" alt="{{ g.alt }}"{% if not loop.first %} loading="lazy"{% endif %}>
+      <img src="{{ g.photo }}" alt="{{ g.alt }}">
       {% if g.credit %}<figcaption>{{ g.credit }}</figcaption>{% endif %}
     </figure>
     {% endfor %}
