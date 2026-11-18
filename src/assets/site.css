@@ -71,7 +71,8 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 .art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* Home: hero */
-.hero { padding-block: clamp(36px, 6vw, 72px) 132px; background: url(../brand/road.svg) left -14px bottom 26px / 74px auto repeat-x; }
+/* The swell, a long low wave of the ribbon, is the hero's bottom edge. */
+.hero { padding-block: clamp(36px, 6vw, 72px) 112px; background: url(../brand/swell.svg) left -80px bottom 0 / 560px auto repeat-x; }
 .hero-inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px 48px; align-items: center; }
 .hero-intro { display: grid; gap: 20px; justify-items: start; }
 .next-card { display: grid; gap: 12px; padding: 16px 18px 22px; border-radius: 24px; background: var(--ink-2); --echo-gap: var(--ink-2); }
@@ -104,7 +105,6 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 .section { padding-block: clamp(56px, 8vw, 96px); }
 .section-head { display: grid; gap: 14px; max-width: 62ch; margin-bottom: 32px; }
 .section-head > p:not(.label) { color: var(--muted); font-size: 18px; }
-.about { border-top: 1px solid var(--ink-3); }
 .about-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 32px 56px; align-items: start; }
 .about-text { display: grid; gap: 14px; }
 .about-text > p:not(.label) { color: var(--muted); font-size: 18px; max-width: 44ch; }
@@ -142,7 +142,7 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 .empty-note { color: var(--muted); font-size: 18px; }
 
 /* Our journey: past events along the road */
-.road { height: 64px; margin-bottom: 28px; background: url(../brand/road.svg) left -14px center / 66px auto repeat-x; }
+.road { height: 48px; margin-bottom: 32px; background: url(../brand/swell.svg) left -80px center / 560px auto repeat-x; }
 .stops { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
 .stops a { display: grid; gap: 2px; align-content: start; height: 100%; padding: 16px 18px 18px; border-radius: 18px; background: var(--ink-2); color: var(--cream); text-decoration: none; }
 .stops a:has(img) { padding-top: 10px; }
@@ -152,9 +152,10 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 .stops b { font-size: 20px; }
 .stops span { color: var(--muted); font-size: 15px; }
 
-/* Donate band, on cream */
-.give { padding-block: 64px 120px; background: var(--cream) url(../brand/arches.svg) left -10px bottom / auto 60px repeat-x; color: var(--ink); }
-.give-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: center; }
+/* Donate band, on cream, with the logo's Q blown up behind it and running off the edge. */
+.give { position: relative; overflow: hidden; isolation: isolate; padding-block: 88px; background: var(--cream); color: var(--ink); }
+.give::before { content: ""; position: absolute; z-index: -1; right: -140px; top: 50%; width: clamp(560px, 56vw, 820px); aspect-ratio: 1; background: url(../brand/f-q.svg) center / contain no-repeat; transform: translateY(-46%) rotate(-10deg); pointer-events: none; }
+.give-inner { display: grid; grid-template-columns: minmax(0, 560px); gap: 24px; }
 .give-text { display: grid; gap: 12px; }
 .give-text p { color: #3d4644; font-size: 18px; max-width: 48ch; }
 .give-links { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -304,7 +305,10 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 
 /* Smaller screens */
 @media (max-width: 900px) {
-  .hero-inner, .about-inner, .event-body, .give-inner { grid-template-columns: 1fr; }
+  .hero-inner, .about-inner, .event-body { grid-template-columns: 1fr; }
+  /* Narrower screens: the Q hangs from the top right, tail first, above the headline. */
+  .give { padding-block: 230px 72px; }
+  .give::before { top: -210px; right: -60px; width: 440px; transform: rotate(-10deg); }
   .cards.three { grid-template-columns: 1fr; }
   .chapter { grid-template-columns: 1fr; }
   .chapter:nth-child(even) .chapter-photo { order: 0; }
@@ -314,7 +318,8 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
   .logo img { width: 104px; }
   nav { order: 3; width: 100%; }
   .nav { gap: 4px 22px; font-size: 15px; }
-  .hero { padding-bottom: 112px; background-size: 60px auto; background-position: left -10px bottom 22px; }
+  .hero { padding-bottom: 88px; background-size: 400px auto; background-position: left -60px bottom 0; }
+  .road { background-size: 400px auto; background-position: left -60px center; }
   .pillars { grid-template-columns: 1fr; }
   .ev { grid-template-columns: 56px minmax(0, 1fr); gap: 4px 14px; padding: 12px 14px 12px 12px; }
   .ev .date { grid-row: span 2; }
@@ -331,7 +336,8 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
   .event-art { aspect-ratio: 4 / 3; border-radius: 18px; }
   .event-art .credit { top: 8px; right: 8px; bottom: auto; font-size: 11px; }
   .event-art.no-photo { aspect-ratio: auto; height: 110px; }
-  .give { padding-bottom: 104px; }
+  .give { padding-block: 184px 64px; }
+  .give::before { top: -168px; right: -56px; width: 348px; }
   .foot-inner { grid-template-columns: 44px minmax(0, 1fr); gap: 16px; }
   .foot-q { width: 44px; }
 }
