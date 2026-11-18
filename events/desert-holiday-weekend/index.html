@@ -12,8 +12,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,600..900,100,1&family=Urbanist:wght@400;500;700;800;900&display=swap">
 <link rel="stylesheet" href="/lssq-site/assets/site.css">
+
+<script>
+  // Runs before the first paint. Marks that JavaScript is on, and if we got here
+  // through the stripe wipe, starts the page covered so the wipe can lift off it.
+  (function (c) {
+    c.add("js");
+    try { if (sessionStorage.getItem("lssq-wipe")) { sessionStorage.removeItem("lssq-wipe"); c.add("wipe-in"); } } catch (e) {}
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) c.add("motion");
+  })(document.documentElement.classList);
+</script>
+<script type="speculationrules">{ "prefetch": [{ "source": "document", "eagerness": "moderate" }] }</script>
 </head>
 <body>
+
+<div class="wipe" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <a class="skip" href="#main">Skip to content</a>
 
 <p class="sample-bar">A sample build, not LSSQ's official site. Upcoming events are made up, and some photos are stock. <a href="https://lastsaturdaysidequest.odoo.com/">Visit the real site</a></p>
@@ -152,5 +165,6 @@
   </div>
 </footer>
 <script src="/lssq-site/assets/site.js" defer=""></script>
+
 </body>
 </html>
