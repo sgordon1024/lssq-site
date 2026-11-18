@@ -123,7 +123,12 @@ collections:
         label: Home, story and contact pages
         file: src/_data/site.json
         fields:
-          - { label: Tagline, name: tagline, widget: string, hint: "Shows in the footer, and runs along the ribbon on the home page." }
+          - { label: Tagline, name: tagline, widget: string, hint: "Shows in the footer." }
+          - label: Ribbon lines
+            name: ribbon
+            widget: list
+            field: { label: Line, name: line, widget: string }
+            hint: "Short facts that run along the striped ribbon on the home page, after the next weekend's name and dates. Keep each one under about 40 letters."
           - label: Top of the home page
             name: hero
             widget: object
@@ -147,18 +152,51 @@ collections:
                 fields:
                   - { label: Name, name: name, widget: string }
                   - { label: Text, name: text, widget: string }
-                  - { label: Photo, name: photo, widget: image, required: false, choose_url: false }
-                  - { label: Photo description, name: photoAlt, widget: string, required: false }
-                  - { label: Photo credit, name: photoCredit, widget: string, required: false }
-                  - { label: Handwritten note, name: note, widget: string, required: false, hint: "A short scribble next to the photo." }
+                  - label: What you'll find
+                    name: things
+                    widget: list
+                    max: 4
+                    field: { label: Thing, name: thing, widget: string }
+                    hint: "Up to four short things, like Sunrise yoga. They show as tags under the big word."
+                  - label: Photos
+                    name: photos
+                    widget: list
+                    max: 3
+                    summary: "{{fields.alt}}"
+                    hint: "Up to three. They're taped around the page like prints."
+                    fields:
+                      - { label: Photo, name: photo, widget: image, choose_url: false }
+                      - { label: Photo description, name: alt, widget: string, hint: "What's in the photo, for people who can't see it." }
+                      - { label: Photo credit, name: credit, widget: string, required: false }
+                  - label: Stickers
+                    name: stickers
+                    widget: select
+                    multiple: true
+                    max: 4
+                    hint: "Up to four, scattered around the page."
+                    options: &stickers
+                      - { label: Sun, value: sun }
+                      - { label: Leaf, value: leaf }
+                      - { label: Mug, value: mug }
+                      - { label: Moon, value: moon }
+                      - { label: Die, value: die }
+                      - { label: Star, value: star }
+                      - { label: Sparkle, value: sparkle }
+                      - { label: Smiley, value: smiley }
+                      - { label: Music notes, value: notes }
+                      - { label: Record, value: record }
+                      - { label: Microphone, value: mic }
+                      - { label: Lightning bolt, value: bolt }
+                      - { label: Heart, value: heart }
+                      - { label: Fire, value: fire }
+                      - { label: Tent, value: tent }
+                      - { label: Chat bubble, value: chat }
+                  - { label: Handwritten note, name: note, widget: string, required: false, hint: "A short scribble on the page." }
                   - label: Icon
                     name: icon
                     widget: select
-                    options:
-                      - { label: Sun, value: sun }
-                      - { label: Die, value: die }
-                      - { label: Music notes, value: notes }
-                      - { label: Heart, value: heart }
+                    hint: "The pillar's main sticker. Also used at the top of the home page."
+                    options: *stickers
           - label: Photos from past weekends
             name: gallery
             widget: list
