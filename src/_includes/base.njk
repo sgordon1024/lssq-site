@@ -10,10 +10,24 @@
 <link rel="icon" href="/brand/f-q.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,600..900,100,1&family=Urbanist:wght@400;500;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,600..900,100,1&family=Urbanist:wght@400;500;700;800;900{% if home %}&family=Caveat:wght@600;700{% endif %}&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
+{% if home %}<link rel="stylesheet" href="/assets/home.css">
+<link rel="stylesheet" href="/assets/vendor/lenis.css">{% endif %}
+<script>
+  // Runs before the first paint. Marks that JavaScript is on, and if we got here
+  // through the stripe wipe, starts the page covered so the wipe can lift off it.
+  (function (c) {
+    c.add("js");
+    try { if (sessionStorage.getItem("lssq-wipe")) { sessionStorage.removeItem("lssq-wipe"); c.add("wipe-in"); } } catch (e) {}
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) c.add("motion");
+  })(document.documentElement.classList);
+</script>
+<script type="speculationrules">{ "prefetch": [{ "source": "document", "eagerness": "moderate" }] }</script>
 </head>
-<body>
+<body{% if home %} class="home"{% endif %}>
+{# The page transition: three stripes and then ink sweep up as wide arcs, like the logo's ribbon. #}
+<div class="wipe" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <a class="skip" href="#main">Skip to content</a>
 {% if meta.sample %}
 <p class="sample-bar">A sample build, not LSSQ's official site. Upcoming events are made up, and some photos are stock. <a href="{{ meta.official }}">Visit the real site</a></p>
@@ -55,5 +69,11 @@
   </div>
 </footer>
 <script src="/assets/site.js" defer></script>
+{% if home %}
+<script src="/assets/vendor/gsap.min.js" defer></script>
+<script src="/assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="/assets/vendor/lenis.min.js" defer></script>
+<script src="/assets/home.js" defer></script>
+{% endif %}
 </body>
 </html>
