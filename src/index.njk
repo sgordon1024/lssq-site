@@ -12,9 +12,9 @@ home: true
 {% set stickerSpeeds = [0.6, -0.45] %}
 
 <section class="h-hero" aria-labelledby="hero-title">
-  <div class="h-stage">
+  <div class="h-stage echo-host">
     <p class="label" data-enter>{{ site.hero.label }}</p>
-    <h1 id="hero-title" class="h-title">{% for w in site.hero.headline.split(" ") %}<span class="w"><span>{{ w }}</span></span> {% endfor %}</h1>
+    <h1 id="hero-title" class="h-title echo" data-text="{{ site.hero.headline }}">{% for w in site.hero.headline.split(" ") %}<span class="w"><span>{{ w }}</span></span> {% endfor %}</h1>
     <p class="lede" data-enter>{{ site.hero.text }}</p>
     <div class="actions" data-enter>
       <a class="btn primary" href="{{ next.url if next else '/events/' }}">{{ "See what's next" if next else "See all events" }}</a>

@@ -176,7 +176,7 @@ collections:
                     hint: "Up to four, scattered around the page."
                     options: &stickers
                       - { label: Sun, value: sun }
-                      - { label: Leaf, value: leaf }
+                      - { label: Sprout, value: sprout }
                       - { label: Mug, value: mug }
                       - { label: Moon, value: moon }
                       - { label: Die, value: die }

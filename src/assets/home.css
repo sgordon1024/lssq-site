@@ -28,8 +28,12 @@
 /* 1. Hero: the headline, huge, with the collage around it */
 .h-hero { position: relative; isolation: isolate; display: grid; place-items: center; min-height: max(660px, calc(100svh - 96px)); padding: clamp(56px, 8vw, 104px) 16px clamp(150px, 14vw, 200px); overflow: hidden; }
 .h-stage { position: relative; z-index: 2; display: grid; justify-items: center; gap: 22px; max-width: 1080px; text-align: center; }
-.h-title { font-size: clamp(56px, 9.6vw, 168px); line-height: .9; letter-spacing: -.02em; text-shadow: 0 .03em .14em rgba(20, 24, 24, .55); }
-.h-title .w { display: inline-block; overflow: hidden; padding: .02em .03em .16em; margin: -.02em -.03em -.16em; vertical-align: top; }
+/* The headline gets the stripe echo like every page's, plus a soft shadow so it reads over the prints. */
+.h-title { font-size: clamp(56px, 9.6vw, 168px); line-height: .94; letter-spacing: -.01em; --echo-after: , 0 .03em .14em rgba(20, 24, 24, .55); }
+.h-title .w { display: inline-block; padding: .02em .03em .16em; margin: -.02em -.03em -.16em; vertical-align: top; }
+/* While the words rise in, each one is clipped to its own line, and the glimmer waits. */
+.js.motion .h-title:not(.is-in) .w { overflow: hidden; }
+.js.motion .h-title:not(.is-in)::after { visibility: hidden; }
 .h-title .w > span { display: inline-block; }
 .h-stage .lede { max-width: 40ch; color: #d9dfdc; }
 .h-stage .actions { justify-content: center; }

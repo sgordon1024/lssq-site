@@ -78,7 +78,7 @@ const round = 'stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" 
 const line = 'fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"';
 const STICKERS = {
   sun: `<circle cx="24" cy="24" r="9.5"/>${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => `<rect x="21.5" y="2.5" width="5" height="9" rx="2.5" transform="rotate(${a} 24 24)"/>`).join("")}`,
-  leaf: '<path d="M9 40C8 24 18 10 40 8c1 22-13 32-29 31z M12.6 36.4 33 15.6l1.4 1.4-20.4 20.8z"/>',
+  sprout: `<path d="M24 30C22 22 16 18 8.5 18.5 8.5 26 15 31 24 30z M24 24.5C25 15 32 8.5 41.5 8.5 41.5 18 34.5 25.5 24 24.5z"/><path d="M24 42C24 35 23.5 29 24.5 21M15 42.5h18" ${line}/>`,
   mug: `<path d="M8 16h25v15a9 9 0 0 1-9 9h-7a9 9 0 0 1-9-9z M33 19.5h3a6.5 6.5 0 0 1 0 13h-3.4v-4.2H36a2.3 2.3 0 0 0 0-4.6h-3z"/><path d="M15.5 5c-2 2.6 2 4.6 0 7.4M24.5 5c-2 2.6 2 4.6 0 7.4" ${line}/>`,
   moon: '<path d="M22.2 7.1A17 17 0 1 0 40.4 28.4 14 14 0 1 1 22.2 7.1z"/>',
   die: `<path transform="rotate(-10 24 24)" d="M15 8h18a7 7 0 0 1 7 7v18a7 7 0 0 1-7 7H15a7 7 0 0 1-7-7V15a7 7 0 0 1 7-7z ${ring(16.5, 16.5, 3)} ${ring(31.5, 16.5, 3)} ${ring(24, 24, 3)} ${ring(16.5, 31.5, 3)} ${ring(31.5, 31.5, 3)}"/>`,
