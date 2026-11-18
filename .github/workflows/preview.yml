@@ -32,12 +32,33 @@ jobs:
         if: github.event.action != 'closed'
         env:
           PATH_PREFIX: /lssq-site/pr-preview/pr-${{ github.event.number }}/
+      # Stamp the preview with its commit, so we can tell when this version is live.
+      - run: echo "${{ github.event.pull_request.head.sha }}" > _site/build.txt
+        if: github.event.action != 'closed'
+      # The action's own wait fails when two previews publish at once: GitHub drops the
+      # older Pages build, though the newer one includes both. So wait on the stamp instead.
       - uses: rossjrw/pr-preview-action@v1.8.2
         id: preview
         with:
           source-dir: _site
           umbrella-dir: pr-preview
-          wait-for-pages-deployment: true
+          wait-for-pages-deployment: false
+      - name: Wait for the preview to be live
+        if: steps.preview.outputs.deployment-action == 'deploy'
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          for i in $(seq 1 48); do
+            # The query string skips the cached copy.
+            if [ "$(curl -fsS "${PREVIEW_URL%/}/build.txt?try=$i" 2>/dev/null)" = "$SHA" ]; then
+              echo "The preview is live: $PREVIEW_URL"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::The preview didn't go live within 8 minutes. Push again to retry."
+          exit 1
       - name: Tell the editor where the preview is
         if: steps.preview.outputs.deployment-action == 'deploy'
         uses: actions/github-script@v9
