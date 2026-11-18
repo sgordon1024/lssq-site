@@ -1,6 +1,47 @@
 // Small touches. The site works the same without them.
 (function () {
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement;
+
+  // 0. The stripe wipe between pages. A click on a link to another page of this
+  //    site sweeps the stripes up to cover the screen, then goes there. The next
+  //    page starts covered (see the script in base.njk) and the stripes lift off.
+  var wipe = document.querySelector(".wipe");
+  var COVER = 720, LIFT = 760;
+  var lift = function () {
+    if (!root.classList.contains("wipe-in")) return;
+    requestAnimationFrame(function () {
+      root.classList.add("wipe-out");
+      setTimeout(function () { root.classList.remove("wipe-in", "wipe-out"); }, LIFT);
+    });
+  };
+  lift();
+  // Coming back with the Back button can restore a page that was still covered.
+  window.addEventListener("pageshow", function (e) {
+    if (e.persisted && root.classList.contains("wipe-cover")) {
+      root.classList.remove("wipe-cover");
+      root.classList.add("wipe-in");
+      lift();
+    }
+  });
+  var home = document.querySelector(".logo");
+  var base = home ? new URL(home.getAttribute("href"), location.href).pathname : "/";
+  if (wipe && !reduce) {
+    document.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a || (a.target && a.target !== "_self") || a.hasAttribute("download")) return;
+      var url = new URL(a.href, location.href);
+      if (url.origin !== location.origin || url.pathname.indexOf(base) !== 0) return;
+      if (/\/admin\//.test(url.pathname) || /\.[a-z0-9]+$/i.test(url.pathname)) return;
+      if (url.pathname === location.pathname && url.search === location.search) return;  // same page, maybe an anchor
+      e.preventDefault();
+      root.classList.remove("wipe-in", "wipe-out");
+      root.classList.add("wipe-cover");
+      try { sessionStorage.setItem("lssq-wipe", "1"); } catch (err) {}
+      setTimeout(function () { location.href = url.href; }, COVER);
+    });
+  }
 
   // 1. The logo draws itself in on someone's first visit, and again whenever
   //    they hover or focus it. Each replay loads the animated file as a fresh

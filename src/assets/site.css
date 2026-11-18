@@ -29,6 +29,29 @@ h1, h2, h3, p, ul, ol { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 
 .wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+/* The stripe wipe between pages. Four wide ellipses (cyan, yellow, pink, then ink)
+   rise from below one after another, so their curved fronts read as the ribbon's
+   stripes. They cover the screen, the next page loads under them, and they carry on
+   up and away. Hidden unless a wipe is running. */
+.wipe { position: fixed; inset: 0; z-index: 100; overflow: hidden; pointer-events: none; visibility: hidden; }
+.wipe i { position: absolute; left: -60vw; top: 100%; width: 220vw; height: 260vh; border-radius: 50%; background: var(--ink); will-change: transform; }
+.wipe i:nth-child(1) { background: var(--cyan); }
+.wipe i:nth-child(2) { background: var(--sun); }
+.wipe i:nth-child(3) { background: var(--pink); }
+.wipe-cover .wipe, .wipe-in .wipe { visibility: visible; pointer-events: auto; }
+.wipe-cover .wipe i { transform: translateY(-180vh); transition: transform .52s cubic-bezier(.7, 0, .25, 1); }
+.wipe-cover .wipe i:nth-child(2) { transition-delay: .06s; }
+.wipe-cover .wipe i:nth-child(3) { transition-delay: .12s; }
+.wipe-cover .wipe i:nth-child(4) { transition-delay: .18s; }
+.wipe-in .wipe i { transform: translateY(-180vh); }
+.wipe-out .wipe i { transform: translateY(-360vh); transition: transform .56s cubic-bezier(.6, 0, .3, 1); }
+.wipe-out .wipe i:nth-child(3) { transition-delay: .06s; }
+.wipe-out .wipe i:nth-child(2) { transition-delay: .12s; }
+.wipe-out .wipe i:nth-child(1) { transition-delay: .18s; }
+
+/* A light film grain over everything, for the warm, printed feel. */
+body::after { content: ""; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
 .skip { position: absolute; left: 12px; top: -80px; z-index: 10; padding: 10px 16px; border-radius: 999px; background: var(--sun); color: var(--ink); font-weight: 800; text-decoration: none; }
 .skip:focus { top: 12px; }
 
@@ -70,22 +93,7 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 .art { position: relative; overflow: hidden; border-radius: 14px; background: var(--cream) url(../brand/arches.svg) left -8px bottom / auto 46% repeat-x; }
 .art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-/* Home: hero */
-/* The swell, a long low wave of the ribbon, is the hero's bottom edge. */
-.hero { padding-block: clamp(36px, 6vw, 72px) 112px; background: url(../brand/swell.svg) left -80px bottom 0 / 560px auto repeat-x; }
-.hero-inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px 48px; align-items: center; }
-.hero-intro { display: grid; gap: 20px; justify-items: start; }
-.next-card { display: grid; gap: 12px; padding: 16px 18px 22px; border-radius: 24px; background: var(--ink-2); --echo-gap: var(--ink-2); }
-/* The next event leads with what it feels like: its photo plus two from past weekends. */
-.next-photos { position: relative; display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr); grid-template-rows: 1fr 1fr; gap: 8px; aspect-ratio: 16 / 9; margin-bottom: 8px; }
-.next-photos figure { position: relative; overflow: hidden; margin: 0; border-radius: 14px; background: var(--ink-3); }
-.next-photos img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2, .7, .2, 1); }
-.np-main { grid-row: span 2; }
-.next-card:hover .next-photos img { transform: scale(1.04); }
-.np-side:nth-of-type(2) { border-radius: 14px 14px 14px 4px; }
-.np-tag { position: absolute; right: 8px; bottom: 8px; padding: 4px 10px; border-radius: 999px; background: rgba(20, 24, 24, .82); color: var(--cream); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; backdrop-filter: blur(6px); }
-.cd-pill { position: absolute; left: 10px; top: 10px; display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 14px 7px; border-radius: 999px; background: var(--sun); color: var(--ink); font-size: 14px; font-weight: 800; box-shadow: 3px 3px 0 var(--ink); transform: rotate(-3deg); }
-.cd-pill b { font-family: var(--display); font-weight: 900; font-variation-settings: "SOFT" 100, "WONK" 1; font-size: 22px; line-height: 1; }
+/* Shared bits: highlights, the spot line, sections */
 .moments { display: flex; flex-wrap: wrap; gap: 8px; }
 .moments li { padding: 5px 13px 6px; border-radius: 999px; background: var(--ink-3); color: var(--cream); font-size: 14px; font-weight: 700; }
 .moments li::before { content: "✦"; margin-right: 6px; color: var(--sun); font-size: 12px; }
@@ -94,36 +102,14 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 .spot-line { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 15px; font-weight: 700; }
 .spot-line .icon { flex: none; width: 22px; height: 22px; color: var(--sun); stroke-width: 3.2; }
 .spot-line a { position: relative; z-index: 1; font-weight: 800; }
-.next-card h2 { font-size: clamp(44px, 5.6vw, 66px); line-height: .92; padding-bottom: .16em; margin-bottom: -.06em; }
-.next-card h2 a { color: inherit; text-decoration: none; }
-.next-card h2 a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
-.next-card.empty h2 { font-size: clamp(30px, 4vw, 40px); }
 .place { color: var(--muted); }
-.next-card .actions { margin-top: 6px; }
 
-/* Home: sections */
 .section { padding-block: clamp(56px, 8vw, 96px); }
 .section-head { display: grid; gap: 14px; max-width: 62ch; margin-bottom: 32px; }
 .section-head > p:not(.label) { color: var(--muted); font-size: 18px; }
-.about-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 32px 56px; align-items: start; }
-.about-text { display: grid; gap: 14px; }
-.about-text > p:not(.label) { color: var(--muted); font-size: 18px; max-width: 44ch; }
-.pillars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.pillars li { position: relative; overflow: hidden; isolation: isolate; display: grid; gap: 6px; align-content: start; padding: 20px 20px 22px; border-radius: 20px; background: var(--ink-2); }
-/* Each pillar's color lives in a sticker-style badge by its name and a big faint
-   watermark of the same icon, never a colored edge on the card. */
-.pillar-badge { display: grid; place-items: center; width: 56px; height: 56px; margin-bottom: 8px; border-radius: 18px; background: var(--c); color: var(--ink); box-shadow: 3px 3px 0 var(--ink), 3px 3px 0 2px color-mix(in srgb, var(--c) 45%, transparent); transform: rotate(-4deg); transition: transform .5s cubic-bezier(.3, 1.6, .5, 1); }
-.pillar-badge .icon { width: 34px; height: 34px; stroke-width: 3.8; }
-.pillars li:nth-child(even) .pillar-badge { transform: rotate(4deg); }
-.pillars li:hover .pillar-badge { transform: rotate(0) scale(1.08) translateY(-2px); }
-.pillar-mark { position: absolute; z-index: -1; right: -18px; bottom: -22px; width: 128px; height: 128px; color: var(--c); opacity: .12; stroke-width: 2.6; transform: rotate(-10deg); transition: transform .6s cubic-bezier(.3, 1.6, .5, 1), opacity .3s; }
-.pillars li:hover .pillar-mark { opacity: .2; transform: rotate(0deg) scale(1.06); }
-.pillars p { color: var(--muted); font-size: 16px; max-width: 30ch; }
 .more-link { justify-self: start; font-weight: 800; text-decoration: none; }
 .more-link:hover { text-decoration: underline; }
 
-.soon-section { background: var(--ink-2); }
-.soon-section .ev { background: var(--ink); }
 .ev-list { display: grid; gap: 12px; }
 .ev { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 14px 20px 14px 14px; border-radius: 18px; background: var(--ink-2); }
 .ev:hover { box-shadow: inset 0 0 0 2px var(--ink-3); }
@@ -298,14 +284,12 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
 @media (prefers-reduced-motion: reduce) {
   .echo, .echo-host:hover .echo, .echo-host:focus-within .echo, .echo.on { --e1: 1; --e2: 1; --e3: 1; transition: none; transform: none; }
   .echo::after { animation: none; opacity: 0; }
-  .pillar-badge, .pillar-mark, .next-photos img { transition: none; }
-  .pillars li:hover .pillar-badge, .pillars li:hover .pillar-mark, .next-card:hover .next-photos img { transform: none; }
   .cd-unit b.tick, .spot.is-secret .spot-icon { animation: none; }
 }
 
 /* Smaller screens */
 @media (max-width: 900px) {
-  .hero-inner, .about-inner, .event-body { grid-template-columns: 1fr; }
+  .event-body { grid-template-columns: 1fr; }
   /* Narrower screens: the Q hangs from the top right, tail first, above the headline. */
   .give { padding-block: 230px 72px; }
   .give::before { top: -210px; right: -60px; width: 440px; transform: rotate(-10deg); }
@@ -318,16 +302,12 @@ h3 { font-size: 20px; font-weight: 800; line-height: 1.2; }
   .logo img { width: 104px; }
   nav { order: 3; width: 100%; }
   .nav { gap: 4px 22px; font-size: 15px; }
-  .hero { padding-bottom: 88px; background-size: 400px auto; background-position: left -60px bottom 0; }
   .road { background-size: 400px auto; background-position: left -60px center; }
-  .pillars { grid-template-columns: 1fr; }
   .ev { grid-template-columns: 56px minmax(0, 1fr); gap: 4px 14px; padding: 12px 14px 12px 12px; }
   .ev .date { grid-row: span 2; }
   .ev-chat { grid-column: 2; font-size: 14px; }
   .ev:has(.ev-thumb) { grid-template-columns: 56px minmax(0, 1fr) 72px; }
   .ev-thumb { grid-column: 3; grid-row: 1 / span 2; width: 72px; height: 72px; }
-  .next-photos { aspect-ratio: 4 / 3; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
-  .np-tag { right: 6px; bottom: 6px; width: calc((100% - 8px) / 2.6 - 12px); padding: 4px 6px; border-radius: 10px; font-size: 10px; letter-spacing: .08em; line-height: 1.25; text-align: center; }
   .countdown { padding: 10px 14px 12px; border-radius: 16px; }
   .cd-unit b { font-size: 34px; }
   .cd-units { gap: 10px; }

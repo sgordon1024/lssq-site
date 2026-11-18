@@ -3,7 +3,8 @@
   "hero": {
     "label": "Different location every month",
     "headline": "Your people are out here.",
-    "text": "A monthly gathering for nomads. Music, play, wellness and connection, somewhere new every month."
+    "text": "A monthly gathering for nomads. Music, play, wellness and connection, somewhere new every month.",
+    "note": "save me a spot by the fire"
   },
   "about": {
     "headline": "Strangers become family.",
@@ -12,22 +13,38 @@
       {
         "name": "Wellness",
         "text": "Morning yoga, sound baths and slow coffee.",
-        "icon": "sun"
+        "icon": "sun",
+        "photo": "/img/stock/beach-yoga.jpg",
+        "photoAlt": "People doing yoga on a beach at sunset, in silhouette against the sea.",
+        "photoCredit": "Stock photo by Tomi Saputra, Unsplash",
+        "note": "the 7am crew"
       },
       {
         "name": "Play",
         "text": "Games, side quests and whatever someone dreams up.",
-        "icon": "die"
+        "icon": "die",
+        "photo": "/img/lssq/group-costumes.webp",
+        "photoAlt": "A big group in bright costumes and wigs grinning for a photo outdoors.",
+        "photoCredit": "Photo from LSSQ",
+        "note": "costumes always welcome"
       },
       {
         "name": "Music",
         "text": "Jams, DJ sets and songs around the fire.",
-        "icon": "notes"
+        "icon": "notes",
+        "photo": "/img/stock/campfire-guitar.jpg",
+        "photoAlt": "A hand playing guitar by a campfire at night.",
+        "photoCredit": "Stock photo by Vitaly Gariev, Unsplash",
+        "note": "bring your instrument!"
       },
       {
         "name": "Connection",
         "text": "Strangers on Friday, family by Sunday.",
-        "icon": "heart"
+        "icon": "heart",
+        "photo": "/img/lssq/group-selfie.webp",
+        "photoAlt": "A crowd of smiling people squeezed into a selfie on a grassy field.",
+        "photoCredit": "Photo from LSSQ",
+        "note": "met these folks on Friday"
       }
     ]
   },
@@ -95,19 +112,23 @@
   "gallery": [
     {
       "photo": "/img/lssq/group-selfie.webp",
-      "alt": "A crowd of smiling people squeezed into a selfie on a grassy field, arms in the air."
+      "alt": "A crowd of smiling people squeezed into a selfie on a grassy field, arms in the air.",
+      "credit": "Photo from LSSQ"
     },
     {
       "photo": "/img/lssq/group-costumes.webp",
-      "alt": "A big group in bright costumes and wigs grinning for a photo outdoors under a grey sky."
+      "alt": "A big group in bright costumes and wigs grinning for a photo outdoors under a grey sky.",
+      "credit": "Photo from LSSQ"
     },
     {
       "photo": "/img/lssq/sunset-camp.webp",
-      "alt": "A pink and orange sunset over a dirt lot of vans, trucks and tents."
+      "alt": "A pink and orange sunset over a dirt lot of vans, trucks and tents.",
+      "credit": "Photo from LSSQ"
     },
     {
       "photo": "/img/lssq/shasta-aerial.webp",
-      "alt": "Aerial view of Lake Shasta winding between mountains, with a camp on the shoreline."
+      "alt": "Aerial view of Lake Shasta winding between mountains, with a camp on the shoreline.",
+      "credit": "Photo from LSSQ"
     }
   ]
 }

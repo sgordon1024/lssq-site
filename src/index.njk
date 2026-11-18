@@ -1,33 +1,142 @@
 ---
 layout: base.njk
+home: true
 ---
+{#- The homepage is one long scroll through scenes: the hero collage, the tagline
+    riding the ribbon, the four pillars sliding sideways, the road so far, the next
+    weekend and the donate band. Every scene reads fine without JavaScript or with
+    reduced motion; home.js only adds the movement. -#}
 {% set next = collections.upcoming[0] %}
-<section class="hero" aria-labelledby="hero-title">
-  <div class="wrap hero-inner">
-    <div class="hero-intro">
-      <p class="label">{{ site.hero.label }}</p>
-      <h1 id="hero-title">{{ site.hero.headline }}</h1>
-      <p class="lede">{{ site.hero.text }}</p>
-      <a class="btn" href="/events/">See all events</a>
-    </div>
+{% set tilts = [-7, 5, -4, 8, -6, 4] %}
+{% set speeds = [-0.35, 0.25, 0.4, -0.2] %}
+{% set stickerSpeeds = [0.6, -0.45] %}
 
+<section class="h-hero" aria-labelledby="hero-title">
+  <div class="h-stage">
+    <p class="label" data-enter>{{ site.hero.label }}</p>
+    <h1 id="hero-title" class="h-title">{% for w in site.hero.headline.split(" ") %}<span class="w"><span>{{ w }}</span></span> {% endfor %}</h1>
+    <p class="lede" data-enter>{{ site.hero.text }}</p>
+    <div class="actions" data-enter>
+      <a class="btn primary" href="{{ next.url if next else '/events/' }}">{{ "See what's next" if next else "See all events" }}</a>
+      <a class="btn" href="/story/">Our story</a>
+    </div>
+  </div>
+
+  {# The collage. Photos from past weekends, taped down like prints, plus stickers. #}
+  <div class="h-collage">
+    {% for g in site.gallery | head(4) %}
+    <figure class="print hp{{ loop.index }}" style="--r: {{ tilts[loop.index0] }}deg" data-speed="{{ speeds[loop.index0] }}" data-toss>
+      <img src="{{ g.photo }}" alt="{{ g.alt }}"{% if not loop.first %} loading="lazy"{% endif %}>
+      {% if g.credit %}<figcaption>{{ g.credit }}</figcaption>{% endif %}
+    </figure>
+    {% endfor %}
+    <span class="sticker sq" data-speed="0.5" data-pop aria-hidden="true"><img src="/brand/f-q.svg" alt=""></span>
+    {% set c = ["var(--cyan)", "var(--sun)", "var(--pink)", "var(--lav)"] %}
+    {% for pillar in site.about.pillars | head(2) %}
+    <span class="sticker sp{{ loop.index }}" style="--c: {{ c[loop.index0 * 2] }}" data-speed="{{ stickerSpeeds[loop.index0] }}" data-pop aria-hidden="true">{% icon pillar.icon %}</span>
+    {% endfor %}
     {% if next %}
-    {% set d = next.data %}
-    {% set days = d.start | daysUntil %}
-    <article class="next-card echo-host" aria-labelledby="next-title">
-      {# The next event's photo, with two from past weekends: what it feels like to be there. #}
-      <div class="next-photos">
-        <figure class="np-main">
-          {% if d.photo %}<img src="{{ d.photo }}" alt="{{ d.photoAlt }}">{% endif %}
-          <p class="cd-pill" data-countdown="pill" data-start="{{ d | startsAt }}" data-end="{{ d | endsAt }}">{% if days > 1 %}<b>{{ days }}</b> days to go{% elif days == 1 %}<b>Tomorrow</b>{% else %}<b>Happening now</b>{% endif %}</p>
-        </figure>
-        {% for g in site.gallery | head(2) %}
-        <figure class="np-side"><img src="{{ g.photo }}" alt="{{ g.alt }}" loading="lazy"></figure>
-        {% endfor %}
-        {% if site.gallery.length %}<p class="np-tag">From past weekends</p>{% endif %}
+    <a class="next-badge" href="{{ next.url }}" data-speed="-0.15" data-pop><span class="nb-face">
+      <small>Next up</small>
+      <b>{{ next.data.title }}</b>
+      <span>{{ next.data.start | dates(next.data.end) }}</span>
+      <span class="nb-count" data-countdown="pill" data-start="{{ next.data | startsAt }}" data-end="{{ next.data | endsAt }}">{% set days = next.data.start | daysUntil %}{% if days > 1 %}<b>{{ days }}</b> days to go{% elif days == 1 %}<b>Tomorrow</b>{% else %}<b>Happening now</b>{% endif %}</span>
+    </span></a>
+    {% if site.hero.note %}
+    <p class="hand h-note" data-enter>{{ site.hero.note }}<svg viewBox="0 0 120 70" aria-hidden="true"><path d="M6 8c30 2 62 14 82 44" /><path d="M74 50l15 4 3-16" /></svg></p>
+    {% endif %}
+    {% endif %}
+  </div>
+</section>
+
+{# The tagline rides along the ribbon. Decorative: the same words are in the footer. #}
+<div class="h-ribbon" aria-hidden="true">
+  <svg viewBox="0 0 1600 240" preserveAspectRatio="xMidYMid slice">
+    <defs><path id="ribbon-line" d="M-800 140 C-600 60 -400 60 -200 140 S200 220 400 140 S800 60 1000 140 S1400 220 1600 140 S2000 60 2200 140 S2600 220 2800 140" /></defs>
+    <use href="#ribbon-line" class="rb-cyan" transform="translate(0 -51)" />
+    <use href="#ribbon-line" class="rb-band" />
+    <use href="#ribbon-line" class="rb-pink" transform="translate(0 51)" />
+    <text class="rb-text" dy="20"><textPath href="#ribbon-line" startOffset="0">{% for i in range(4) %}{{ site.tagline | upper }} ✦ {% endfor %}</textPath></text>
+  </svg>
+</div>
+
+<section class="h-pillars" id="about" aria-labelledby="about-title">
+  <div class="hp-track">
+    <div class="hp-panel hp-intro">
+      <div class="hp-intro-text">
+        <p class="label">What is LSSQ</p>
+        <h2 id="about-title">{{ site.about.headline }}</h2>
+        <p>{{ site.about.text }}</p>
+        <a class="more-link" href="/story/">Read our story <span aria-hidden="true">→</span></a>
       </div>
-      <p class="label sun">Next up · {{ d.start | dates(d.end) }}{% if d.sample %} · <span class="tag">Sample</span>{% endif %}</p>
-      <h2 class="echo" id="next-title" data-text="{{ d.title }}"><a href="{{ next.url }}">{{ d.title }}</a></h2>
+      <p class="hand hp-hint" aria-hidden="true">four things hold it together<svg viewBox="0 0 120 40"><path d="M4 20h104" /><path d="M96 9l13 11-13 11" /></svg></p>
+    </div>
+    {% set colors = ["var(--cyan)", "var(--sun)", "var(--pink)", "var(--lav)"] %}
+    {% for pillar in site.about.pillars %}
+    <article class="hp-panel hp-pillar" style="--c: {{ colors[loop.index0 % 4] }}; --len: {{ pillar.name | length }}" aria-labelledby="pillar-{{ loop.index }}">
+      <h3 class="hp-word" id="pillar-{{ loop.index }}">{{ pillar.name }}</h3>
+      <span class="hp-sticker" aria-hidden="true">{% icon pillar.icon %}</span>
+      {% if pillar.photo %}
+      <figure class="print hp-print" style="--r: {{ tilts[loop.index0 + 1] }}deg">
+        <img src="{{ pillar.photo }}" alt="{{ pillar.photoAlt }}" loading="lazy">
+        {% if pillar.photoCredit %}<figcaption>{{ pillar.photoCredit }}</figcaption>{% endif %}
+      </figure>
+      {% endif %}
+      <p class="hp-text">{{ pillar.text }}</p>
+      {% if pillar.note %}<p class="hand hp-note" aria-hidden="true">{{ pillar.note }}</p>{% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% if collections.past.length %}
+<section class="h-past" aria-labelledby="past-title">
+  <div class="wrap">
+    <div class="h-past-head">
+      <p class="label">Where we've been</p>
+      <h2 id="past-title">Every stop on the road.</h2>
+      <p class="hand" aria-hidden="true">the photo wall so far</p>
+    </div>
+    <ul class="h-pile">
+      {% for e in collections.past | head(6) %}
+      <li style="--r: {{ tilts[(loop.index0 + 2) % 6] }}deg" data-fly>
+        <a href="{{ e.url }}" class="print h-stop">
+          {% if e.data.photo %}<img src="{{ e.data.photo }}" alt="" loading="lazy">{% endif %}
+          <span class="hand">{{ e.data.title }}</span>
+          <small>{{ e.data.start | monthYear }} · {{ e.data.place }}</small>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="more"><a href="/events/">Every event <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+{% endif %}
+
+<section class="h-next echo-host" id="next" aria-labelledby="next-title">
+  {% if next %}
+  {% set d = next.data %}
+  {% set days = d.start | daysUntil %}
+  <div class="wrap h-next-head">
+    <p class="label sun">Next up · {{ d.start | dates(d.end) }}{% if d.sample %} · <span class="tag">Sample</span>{% endif %}</p>
+    <h2 class="echo" id="next-title" data-text="{{ d.title }}"><a href="{{ next.url }}">{{ d.title }}</a></h2>
+  </div>
+  <figure class="h-next-photo{% if not d.photo %} no-photo{% endif %}" data-grow>
+    {% if d.photo %}<img src="{{ d.photo }}" alt="{{ d.photoAlt }}" loading="lazy">{% endif %}
+    <div class="countdown" data-countdown="full" data-start="{{ d | startsAt }}" data-end="{{ d | endsAt }}">
+      <p class="cd-label">{{ "Starts in" if days > 0 else "Happening now" }}</p>
+      <p class="cd-units"{% if days <= 0 %} hidden{% endif %}>
+        <span class="cd-unit"><b data-unit="d">{{ days }}</b><small>days</small></span>
+        <span class="cd-unit" data-live hidden><b data-unit="h">00</b><small>hrs</small></span>
+        <span class="cd-unit" data-live hidden><b data-unit="m">00</b><small>min</small></span>
+        <span class="cd-unit" data-live hidden><b data-unit="s">00</b><small>sec</small></span>
+      </p>
+      <p class="cd-now"{% if days > 0 %} hidden{% endif %}>Come find us by the fire.</p>
+    </div>
+    {% if d.photo and d.photoCredit %}<figcaption class="credit">{{ d.photoCredit }}</figcaption>{% endif %}
+  </figure>
+  <div class="wrap h-next-body">
+    <div class="h-next-info">
       <p class="place">{{ d.place }}{% if d.region %} · {{ d.region }}{% endif %}</p>
       {% if d.highlights and d.highlights.length %}
       <ul class="moments" aria-label="What you'll find">
@@ -47,54 +156,25 @@ layout: base.njk
           <span class="soon">Chat opens soon</span>
         {% endif %}
       </div>
-    </article>
-    {% else %}
-    <div class="next-card empty">
-      <p class="label sun">Next up</p>
-      <h2>The next one is coming soon.</h2>
-      <p class="place">Follow along on <a href="{{ site.contact.instagram }}">Instagram</a> to hear first.</p>
+    </div>
+    {% set later = collections.upcoming.slice(1, 4) %}
+    {% if later.length %}
+    <div class="h-later">
+      <h3 class="label">Then</h3>
+      <ul class="ev-list">
+        {% for e in later %}{% include "event-row.njk" %}{% endfor %}
+      </ul>
+      <p class="more"><a href="/events/">All events <span aria-hidden="true">→</span></a></p>
     </div>
     {% endif %}
   </div>
-</section>
-
-<section class="section about" id="about" aria-labelledby="about-title">
-  <div class="wrap about-inner">
-    <div class="about-text">
-      <p class="label">What is LSSQ</p>
-      <h2 id="about-title">{{ site.about.headline }}</h2>
-      <p>{{ site.about.text }}</p>
-      <a class="more-link" href="/story/">Read our story <span aria-hidden="true">→</span></a>
-    </div>
-    <ul class="pillars">
-      {% set colors = ["var(--cyan)", "var(--sun)", "var(--pink)", "var(--lav)"] %}
-      {% for pillar in site.about.pillars %}
-      <li style="--c: {{ colors[loop.index0 % 4] }}">
-        <span class="pillar-badge">{% icon pillar.icon %}</span>
-        <h3>{{ pillar.name }}</h3>
-        <p>{{ pillar.text }}</p>
-        {% icon pillar.icon, "pillar-mark" %}
-      </li>
-      {% endfor %}
-    </ul>
+  {% else %}
+  <div class="wrap h-next-head">
+    <p class="label sun">Next up</p>
+    <h2>The next one is coming soon.</h2>
+    <p class="lede">Follow along on <a href="{{ site.contact.instagram }}">Instagram</a> to hear first.</p>
   </div>
-</section>
-
-<section class="section soon-section" id="events" aria-labelledby="events-title">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="label">Coming up</p>
-      <h2 id="events-title">Save the weekend.</h2>
-    </div>
-    {% if collections.upcoming.length %}
-    <ul class="ev-list">
-      {% for e in collections.upcoming | head(4) %}{% include "event-row.njk" %}{% endfor %}
-    </ul>
-    <p class="more"><a href="/events/">All events <span aria-hidden="true">→</span></a></p>
-    {% else %}
-    <p class="empty-note">Nothing on the calendar yet. Follow along on <a href="{{ site.contact.instagram }}">Instagram</a> to hear first.</p>
-    {% endif %}
-  </div>
+  {% endif %}
 </section>
 
 {% include "donate.njk" %}

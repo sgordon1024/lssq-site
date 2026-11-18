@@ -23,12 +23,14 @@ Past events move to "Where we've been" on their own. The site rebuilds every nig
 | Path | What it is |
 | --- | --- |
 | `src/events/*.md` | One file per event: details up top, the description below |
-| `src/_data/site.json` | The words on the home, story and contact pages, the pillar icons and the past-weekend photos |
+| `src/_data/site.json` | The words on the home, story and contact pages, the pillars (icons, photos, handwritten notes) and the past-weekend photos |
 | `src/story.njk` | The Our story page |
 | `src/img/lssq/` | Photos from LSSQ's own site |
 | `src/img/stock/` | Stock photos from Unsplash, standing in until there are real ones |
 | `src/_includes/` | Page layouts and shared pieces |
-| `src/assets/site.css`, `site.js` | The design, plus small touches: the logo draws in on first visit and on hover, the countdowns tick, the Copy button, the stripe echo on phones |
+| `src/index.njk` | The home page: one long scroll of scenes (collage, ribbon, pillars, photo wall, next weekend, donate) |
+| `src/assets/site.css`, `site.js` | The design, plus small touches: the stripe wipe between pages, the film grain, the logo drawing in, the countdowns, the Copy button, the stripe echo on phones |
+| `src/assets/home.css`, `home.js` | The home page only: its scenes and their movement (smooth scroll, parallax, the sideways pillars) |
 | `src/brand/` | Logo and pattern SVGs, copied from the workshop repo. Change them there, not here |
 | `src/admin/` | The editor (Decap CMS) and its settings |
 | `auth/` | The editor's sign-in helper, a small Cloudflare Worker |
@@ -61,4 +63,6 @@ To let someone edit, add them as a collaborator on this repo. They need a free G
 - Links in templates start with `/`. The build adds `/lssq-site/` (or the preview's folder) from `PATH_PREFIX`.
 - The brand rules (colors, type, logo use) are on the workshop's [brand page](https://sgordon1024.github.io/lssq/brand/).
 - **Photo credits:** every stock photo says so in its credit line, and the sample bar says some photos are stock. Unsplash photos are free to use under the Unsplash License. Swap them for real LSSQ photos when Jake has them.
+- **Home page movement** uses [GSAP](https://gsap.com) with ScrollTrigger (free under GSAP's no-charge license) and [Lenis](https://lenis.darkroom.engineering) (MIT). Both come from npm and the build copies them into `assets/vendor/`, so nothing loads from another site. Only the home page loads them. With reduced motion, or if they fail to load, the home page is a plain scroll with nothing hidden.
+- **The stripe wipe** covers the screen when you click a link to another page of the site, then lifts off the next page. It's skipped with reduced motion and for the editor, files and new tabs.
 - GitHub pauses the nightly rebuild after 60 days with no commits. Turn it back on from the Actions tab.

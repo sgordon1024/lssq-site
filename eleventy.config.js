@@ -87,6 +87,13 @@ export default function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
 
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets", "src/brand": "brand", "src/img": "img", "src/admin": "admin" });
+  // The homepage's scroll scenes use GSAP (ScrollTrigger) and Lenis, copied in from npm.
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/gsap/dist/gsap.min.js": "assets/vendor/gsap.min.js",
+    "node_modules/gsap/dist/ScrollTrigger.min.js": "assets/vendor/ScrollTrigger.min.js",
+    "node_modules/lenis/dist/lenis.min.js": "assets/vendor/lenis.min.js",
+    "node_modules/lenis/dist/lenis.css": "assets/vendor/lenis.css",
+  });
   eleventyConfig.ignores.add("src/admin/**");
 
   eleventyConfig.addFilter("dates", dates);

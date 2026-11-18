@@ -1,0 +1,174 @@
+/* The homepage: one long scroll through scenes, like a weekend told as a collage.
+   Photos are taped-down prints, the pillar icons are stickers, notes are handwritten,
+   and the ribbon's stripes carry the tagline. Everything here reads fine as a plain
+   page; home.js adds the movement (parallax, the sideways pillars, the reveals). */
+.home { --hand: "Caveat", "Bradley Hand", "Segoe Print", cursive; }
+.hand { font-family: var(--hand); font-weight: 700; font-size: 28px; line-height: 1.05; letter-spacing: 0; text-transform: none; }
+
+/* Prints: a photo on cream with a strip of washi tape across the top */
+.print { position: relative; margin: 0; padding: 9px 9px 30px; border-radius: 3px; background: var(--cream); box-shadow: 0 18px 40px rgba(0, 0, 0, .35), 0 2px 6px rgba(0, 0, 0, .2); transform: rotate(var(--r, 0deg)); }
+.print img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 2px; background: var(--ink-3); }
+.print::before { content: ""; position: absolute; z-index: 1; top: -11px; left: 50%; width: 74px; height: 22px; margin-left: -37px; background: color-mix(in srgb, var(--tape, var(--sun)) 72%, transparent); box-shadow: 0 1px 2px rgba(0, 0, 0, .15); transform: rotate(calc(var(--r, 0deg) * -1.3)); }
+.print:nth-child(3n+2) { --tape: var(--cyan); }
+.print:nth-child(3n) { --tape: var(--pink); }
+.print figcaption { position: absolute; left: 10px; right: 10px; bottom: 8px; overflow: hidden; color: #66706e; font-size: 10px; font-weight: 700; line-height: 1.2; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Stickers: a die-cut cream edge around a colored shape */
+.sticker { position: absolute; display: grid; place-items: center; width: 92px; height: 92px; border-radius: 28px; background: var(--c, var(--sun)); color: var(--ink); box-shadow: 0 0 0 5px var(--cream), 0 14px 26px rgba(0, 0, 0, .35); transform: rotate(var(--r, -8deg)); }
+.sticker .icon { width: 58%; height: 58%; stroke-width: 3.6; }
+.sticker.sq { width: 108px; height: 108px; border-radius: 50%; background: var(--ink); }
+.sticker.sq img { width: 76%; }
+
+/* With motion on, the hero's pieces start hidden so the entrance can bring them in.
+   If home.js never runs, they show anyway after a moment. */
+.js.motion .h-title .w > span, .js.motion .h-stage [data-enter], .js.motion [data-toss], .js.motion [data-pop], .js.motion .h-note { visibility: hidden; animation: home-failsafe 0s 2.6s forwards; }
+.home-still .h-title .w > span, .home-still .h-stage [data-enter], .home-still [data-toss], .home-still [data-pop], .home-still .h-note { visibility: visible; animation: none; }
+@keyframes home-failsafe { to { visibility: visible; } }
+
+/* 1. Hero: the headline, huge, with the collage around it */
+.h-hero { position: relative; isolation: isolate; display: grid; place-items: center; min-height: max(660px, calc(100svh - 96px)); padding: clamp(56px, 8vw, 104px) 16px clamp(150px, 14vw, 200px); overflow: hidden; }
+.h-stage { position: relative; z-index: 2; display: grid; justify-items: center; gap: 22px; max-width: 1080px; text-align: center; }
+.h-title { font-size: clamp(56px, 9.6vw, 168px); line-height: .9; letter-spacing: -.02em; text-shadow: 0 .03em .14em rgba(20, 24, 24, .55); }
+.h-title .w { display: inline-block; overflow: hidden; padding: .02em .03em .16em; margin: -.02em -.03em -.16em; vertical-align: top; }
+.h-title .w > span { display: inline-block; }
+.h-stage .lede { max-width: 40ch; color: #d9dfdc; }
+.h-stage .actions { justify-content: center; }
+.h-collage { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.h-collage > * { pointer-events: auto; }
+.h-collage .print { position: absolute; width: clamp(140px, 15vw, 240px); }
+.hp1 { left: 3%; top: 7%; }
+.hp2 { right: 4%; top: 5%; }
+.hp3 { left: 6%; bottom: 9%; }
+.hp4 { right: 3%; bottom: 32%; width: clamp(120px, 12vw, 190px) !important; }
+.sq { left: 21%; bottom: 7%; --r: 10deg; }
+.sp1 { right: 22%; top: 4%; --r: -10deg; }
+.sp2 { left: 1.5%; top: 47%; --r: 8deg; }
+/* The link is what moves on scroll (GSAP owns its transform); the face inside it tilts and grows on hover. */
+.next-badge { position: absolute; right: 9%; bottom: 5%; width: 184px; height: 184px; border-radius: 50%; color: var(--ink); text-decoration: none; }
+.nb-face { display: grid; place-content: center; justify-items: center; gap: 2px; width: 100%; height: 100%; padding: 16px; border-radius: 50%; background: var(--sun); text-align: center; box-shadow: 0 0 0 5px var(--cream), 0 18px 34px rgba(0, 0, 0, .4); transform: rotate(8deg); transition: transform .5s cubic-bezier(.3, 1.6, .5, 1); }
+.next-badge:hover .nb-face { transform: rotate(0) scale(1.05); }
+.nb-face small { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.nb-face > b { font-family: var(--display); font-weight: 900; font-variation-settings: "SOFT" 100, "WONK" 1; font-size: 25px; line-height: .95; }
+.nb-face > span { font-size: 13px; font-weight: 700; }
+.nb-count { margin-top: 4px; padding: 2px 10px 3px; border-radius: 999px; background: var(--ink); color: var(--sun); }
+.nb-count b { font-weight: 900; }
+.next-badge:focus-visible { outline-color: var(--cream); }
+.h-note { position: absolute; right: calc(9% + 196px); bottom: 9%; display: grid; justify-items: end; color: var(--sun); transform: rotate(-6deg); }
+.h-note svg { width: 84px; margin-right: -50px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+
+/* 2. The tagline riding the ribbon: a fat yellow stripe between cyan and pink */
+.h-ribbon { position: relative; z-index: 4; height: clamp(150px, 17vw, 250px); margin: -86px 0 -96px; overflow-x: clip; pointer-events: none; }
+.h-ribbon svg { position: absolute; left: -5%; width: 110%; height: 100%; overflow: visible; transform: rotate(-3deg); }
+.h-ribbon use { fill: none; }
+.rb-band { stroke: var(--sun); stroke-width: 84; }
+.rb-cyan { stroke: var(--cyan); stroke-width: 10; }
+.rb-pink { stroke: var(--pink); stroke-width: 10; }
+.rb-text { fill: var(--ink); font-family: var(--display); font-weight: 900; font-variation-settings: "SOFT" 100, "WONK" 1; font-size: 54px; letter-spacing: .02em; }
+
+/* 3. The four pillars. Stacked panels by default; home.js lays them out in a row
+   and slides them sideways as you scroll, on big screens with motion allowed. */
+.h-pillars { position: relative; z-index: 1; }
+.hp-panel { position: relative; overflow: hidden; display: grid; place-items: center; min-height: min(100svh, 860px); padding: 140px 16px 120px; background: var(--c, var(--ink)); color: var(--ink); }
+.hp-intro { place-items: center start; padding-left: max(16px, calc((100vw - 1120px) / 2 + 16px)); padding-top: 180px; background: var(--ink); color: var(--cream); }
+.hp-intro-text { display: grid; gap: 18px; justify-items: start; max-width: 36rem; }
+.hp-intro h2 { font-size: clamp(44px, 6.4vw, 96px); line-height: .95; }
+.hp-intro-text > p:not(.label) { color: var(--muted); font-size: 19px; }
+.hp-hint { display: none; position: absolute; right: 8%; bottom: 16%; color: var(--sun); transform: rotate(-4deg); }
+.hp-hint svg { display: block; width: 110px; margin: 6px 0 0 auto; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.hp-word { position: relative; z-index: 1; font-family: var(--display); font-weight: 900; font-variation-settings: "SOFT" 100, "WONK" 1; font-size: clamp(54px, min(16vw, calc(128vw / var(--len, 8))), 290px); line-height: .82; letter-spacing: -.035em; }
+.hp-sticker { position: absolute; z-index: 2; left: 9%; bottom: 13%; display: grid; place-items: center; width: clamp(96px, 11vw, 170px); aspect-ratio: 1; border-radius: 28%; background: var(--ink); color: var(--c); box-shadow: 0 0 0 6px var(--cream), 0 20px 40px rgba(0, 0, 0, .25); transform: rotate(-8deg); }
+.hp-sticker .icon { width: 58%; height: 58%; stroke-width: 3.6; }
+.hp-print { position: absolute; z-index: 2; right: 9%; top: 12%; width: clamp(150px, 18vw, 290px); }
+.hp-text { position: absolute; z-index: 2; left: 50%; bottom: 9%; width: min(30ch, 80%); transform: translateX(-50%); font-size: 20px; font-weight: 800; line-height: 1.3; text-align: center; text-wrap: balance; }
+.hp-note { position: absolute; z-index: 2; left: 9%; top: 15%; max-width: 12ch; font-size: 34px; transform: rotate(-5deg); }
+.hp-pillar:nth-child(odd) .hp-sticker { left: auto; right: 10%; transform: rotate(7deg); }
+.hp-pillar:nth-child(odd) .hp-print { right: auto; left: 8%; }
+.hp-pillar:nth-child(odd) .hp-note { left: auto; right: 9%; transform: rotate(4deg); }
+
+.is-sideways { overflow: hidden; }
+.is-sideways .hp-track { display: flex; width: max-content; }
+.is-sideways .hp-panel { flex: none; width: 100vw; height: 100vh; min-height: 0; }
+.is-sideways .hp-hint { display: block; }
+/* The next section's dome rises over the last panel as the slide ends, so keep the line clear of it. */
+.is-sideways .hp-text { bottom: 15%; }
+
+/* 4. Where we've been: a photo wall on cream, rising over the pillars in a curve */
+.h-past { position: relative; z-index: 2; overflow-x: clip; margin-top: -90px; padding: 150px 0 160px; border-radius: 50% 50% 0 0 / 90px 90px 0 0; background: var(--cream); color: var(--ink); }
+.h-past-head { display: grid; justify-items: center; gap: 12px; text-align: center; }
+.h-past-head h2 { font-size: clamp(42px, 6.4vw, 92px); line-height: .95; }
+.h-past-head .label { color: var(--deep-pink); }
+.h-past-head .hand { color: var(--deep-pink); font-size: 30px; transform: rotate(-3deg); }
+.h-pile { display: flex; flex-wrap: wrap; justify-content: center; gap: 36px 44px; margin-top: 56px; }
+.h-pile li { width: clamp(220px, 24vw, 300px); }
+.h-stop { display: block; padding-bottom: 16px; color: var(--ink); text-decoration: none; transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+.h-stop img { aspect-ratio: 1; }
+.h-stop .hand { display: block; margin-top: 10px; font-size: 32px; text-align: center; }
+.h-stop small { display: block; color: #4d5654; font-size: 13px; font-weight: 700; text-align: center; }
+.h-stop:hover { transform: rotate(0deg) scale(1.03); }
+.h-past .more { margin-top: 48px; text-align: center; }
+.h-past .more a, .h-past :focus-visible { color: var(--ink); outline-color: var(--ink); }
+
+/* 5. The next weekend, big: name, photo with the countdown, then the details */
+.h-next { position: relative; z-index: 3; margin-top: -90px; padding: 140px 0 120px; border-radius: 50% 50% 0 0 / 90px 90px 0 0; background: var(--ink); --echo-gap: var(--ink); }
+.h-next-head { display: grid; justify-items: center; gap: 10px; margin-bottom: 40px; text-align: center; }
+.h-next-head h2 { font-size: clamp(56px, 11vw, 184px); line-height: .9; padding-bottom: .16em; margin-bottom: -.12em; }
+.h-next-head h2 a { color: inherit; text-decoration: none; }
+.h-next-photo { position: relative; overflow: hidden; margin: 0; aspect-ratio: 21 / 9; background: var(--ink-3); }
+.h-next-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.h-next-photo::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(200deg, transparent 45%, rgba(20, 24, 24, .55)); pointer-events: none; }
+.h-next-photo.no-photo { aspect-ratio: auto; min-height: 220px; background: var(--cream) url(../brand/arches.svg) left -8px bottom / auto 46% repeat-x; }
+.h-next-photo .countdown { left: max(16px, calc((100vw - 1120px) / 2 + 16px)); bottom: clamp(16px, 3vw, 40px); }
+.h-next-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 40px 64px; align-items: start; margin-top: 44px; }
+.h-next-info { display: grid; gap: 16px; justify-items: start; }
+.h-next-info .place { font-size: 20px; }
+.h-later .label { margin-bottom: 14px; }
+.h-later .more { margin-top: 16px; }
+/* A tighter row here: the chat status is on each event's own page. */
+.h-later .ev-chat { display: none; }
+@media (min-width: 641px) { .h-later .ev:has(.ev-thumb) { grid-template-columns: 64px minmax(0, 1fr) 96px; } }
+
+/* On the homepage, the donate band's Q turns like a record as you scroll by. */
+.home .give::before { transform: translateY(-46%) rotate(calc(-10deg + var(--spin, 0deg))); }
+
+/* Smaller screens: everything stacks, and the collage tucks into the corners */
+@media (max-width: 900px) {
+  .h-next-body { grid-template-columns: 1fr; }
+  .home .give::before { transform: rotate(calc(-10deg + var(--spin, 0deg))); }
+  .hp4, .sp2 { display: none; }
+  .h-note { right: calc(4% + 204px); }
+  .next-badge { right: 4%; }
+}
+@media (max-width: 640px) {
+  .h-hero { min-height: 0; padding: 200px 16px 270px; }
+  .h-collage .print { width: 124px; padding: 6px 6px 22px; }
+  .print figcaption { bottom: 5px; font-size: 8px; }
+  .hp1 { left: -10px; top: 18px; }
+  .hp2 { right: -8px; top: 26px; }
+  .hp3 { left: 10px; bottom: 74px; width: 112px !important; }
+  .sq { left: auto; right: 42%; top: 40px; bottom: auto; width: 76px; height: 76px; }
+  .sp1 { display: none; }
+  .next-badge { right: 12px; bottom: 72px; width: 156px; height: 156px; }
+  .nb-face > b { font-size: 21px; }
+  .h-note { display: none; }
+  .h-ribbon { margin: -60px 0 -70px; height: 140px; }
+  .rb-text { font-size: 60px; }
+  .hp-panel { display: flex; flex-direction: column; align-items: center; gap: 18px; min-height: 0; padding: 72px 16px 64px; }
+  .hp-intro { align-items: flex-start; padding-top: 120px; }
+  .hp-pillar .hp-print, .hp-pillar:nth-child(odd) .hp-print { position: relative; inset: auto; width: 62%; margin-bottom: 8px; }
+  .hp-pillar .hp-sticker, .hp-pillar:nth-child(odd) .hp-sticker { top: 170px; bottom: auto; left: auto; right: 14px; width: 84px; box-shadow: 0 0 0 5px var(--cream), 0 12px 24px rgba(0, 0, 0, .25); }
+  .hp-word { font-size: min(15.5vw, calc(118vw / var(--len, 8))); }
+  .hp-text { position: static; width: auto; max-width: 30ch; transform: none; font-size: 18px; }
+  .hp-note, .hp-pillar:nth-child(odd) .hp-note { position: static; max-width: none; font-size: 28px; }
+  .h-past, .h-next { margin-top: -48px; border-radius: 50% 50% 0 0 / 48px 48px 0 0; padding-top: 96px; }
+  .h-pile { gap: 28px; }
+  .h-pile li { width: min(78%, 300px); }
+  .h-next-photo { aspect-ratio: 4 / 5; }
+  .h-next-photo .credit { top: 8px; right: 8px; bottom: auto; font-size: 11px; }
+}
+
+/* Reduced motion: no tilting on hover. home.js skips all the scroll movement. */
+@media (prefers-reduced-motion: reduce) {
+  .nb-face, .h-stop { transition: none; }
+  .next-badge:hover .nb-face { transform: rotate(8deg); }
+  .h-stop:hover { transform: rotate(var(--r, 0deg)); }
+}
