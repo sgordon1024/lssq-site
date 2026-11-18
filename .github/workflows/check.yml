@@ -1,0 +1,41 @@
+# Checks every change before it can go live: the events and site words follow the
+# editor's rules, every photo is there, described, small and not saying where it was
+# taken, and the site builds. main only takes changes that pass this ("check").
+name: Check
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      # Content (events, the site's words, photos) can go live once the check passes.
+      # Anything else waits for Steve's review (see .github/CODEOWNERS). Say so up front.
+      - name: Note anything beyond content
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.number }}
+        run: |
+          other=$(gh pr diff "$PR" --name-only --repo "$GITHUB_REPOSITORY" | grep -v -E '^(src/events/[^/]+\.md|src/_data/site\.json|src/img/.+)$' || true)
+          if [ -n "$other" ]; then
+            echo "::notice::This changes more than content, so Steve needs to OK it before it can go live: $(echo $other)"
+            {
+              echo "### Needs Steve's OK"
+              echo "This changes the site's design or code, not just its content:"
+              echo "$other" | sed 's/^/- /'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi

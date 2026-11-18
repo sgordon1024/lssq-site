@@ -3,9 +3,15 @@
 A sample site for Last Saturday Side Quest, built so Jake can update it without a developer. **It isn't LSSQ's official site.** That's [lastsaturdaysidequest.odoo.com](https://lastsaturdaysidequest.odoo.com/). This is part of the [LSSQ Workshop](https://sgordon1024.github.io/lssq/), and the upcoming events in it are made up.
 
 - **Live:** https://sgordon1024.github.io/lssq-site/
-- **Editor:** https://sgordon1024.github.io/lssq-site/admin/
+- **Updating the site?** Start with [How to update the site](HOW-TO-UPDATE.md). AI assistants read [AGENTS.md](AGENTS.md) first.
 
 ## How editing works
+
+**With an AI assistant (the main way).** Jake tells an assistant that can work on GitHub (Claude Code, Codex, Copilot and the like) what he wants. It follows [AGENTS.md](AGENTS.md): makes the change on a branch, runs `npm run check`, opens a pull request, sends him the preview link and publishes when he says so. `CLAUDE.md` and `GEMINI.md` point those tools at the same guide.
+
+**Who can publish what.** `main` only takes pull requests, and only once the **check** passes. Content (events, `site.json`, photos) can go live on that alone. Anything else needs Steve's review ([CODEOWNERS](.github/CODEOWNERS)), and GitHub asks him automatically. Steve's own code changes go in with an admin merge (`gh pr merge --admin`).
+
+**With the editor (on hold).** The editor at `/admin/` works the same way, but it can't sign in until the helper below is set up. That waits until we know whether Jake wants a point-and-click editor as well. Its steps:
 
 1. Sign in to the editor with GitHub.
 2. Change an event or the site words, then **Save**. Every save is a draft (a pull request), so nothing goes live by accident.
@@ -32,9 +38,15 @@ Past events move to "Where we've been" on their own. The site rebuilds every nig
 | `src/assets/site.css`, `site.js` | The design, plus small touches: the stripe wipe between pages, the film grain, the logo drawing in, the countdowns, the Copy button, the stripe echo on phones |
 | `src/assets/home.css`, `home.js` | The home page only: its scenes and their movement (smooth scroll, parallax, the sideways pillars) |
 | `src/brand/` | Logo and pattern SVGs, copied from the workshop repo. Change them there, not here |
-| `src/admin/` | The editor (Decap CMS) and its settings |
+| `src/admin/` | The editor (Decap CMS) and its settings. `config.yml` is also the rulebook `npm run check` uses for every field |
+| `src/img/uploads/` | New photos |
+| `AGENTS.md` | The guide AI assistants follow to update the site (`CLAUDE.md` and `GEMINI.md` point to it) |
+| `HOW-TO-UPDATE.md` | The one-page how-to for Jake |
+| `tools/check.mjs` | `npm run check`: checks the content against the editor's rules and the photo rules, in plain words |
+| `tools/photos.mjs`, `photo-rules.mjs` | `npm run photos`: gets new photos ready (upright, at most 2000px and 1 MB, no location data, HEIC to JPEG on a Mac) |
+| `.github/CODEOWNERS` | Which changes need Steve's review (anything beyond content) |
 | `auth/` | The editor's sign-in helper, a small Cloudflare Worker |
-| `.github/workflows/` | `deploy.yml` puts `main` live; `preview.yml` builds a preview of every pull request |
+| `.github/workflows/` | `deploy.yml` puts `main` live; `preview.yml` builds a preview of every pull request; `check.yml` runs `npm run check` on every pull request, and `main` won't take one that fails |
 | `eleventy.config.js` | The build (Eleventy): dates, upcoming and past events, the countdown and spot helpers, the line icons, the solid sticker icons (`{% sticker "name" %}`, for anything big or turned) and the ribbon's evenly spaced stripes |
 
 ## Run it locally
@@ -46,7 +58,7 @@ npm start
 
 Then open http://localhost:8080. To try the editor against the files on disk, run `npm run cms` in a second terminal and open http://localhost:8080/admin/.
 
-## Set up sign-in (one time)
+## Set up sign-in (one time, on hold)
 
 The editor signs in through the worker in `auth/`, which holds the GitHub secret so the public site never does.
 
@@ -59,6 +71,7 @@ To let someone edit, add them as a collaborator on this repo. They need a free G
 
 ## Good to know
 
+- **Photos have to be ready before they go in:** at most 2000px on the long side and 1 MB, with no location data (phones save where each photo was taken, and this repo is public). `npm run photos` does all of that, and the check fails until it's done. If the editor comes back, its uploads will need the same treatment, so it would need a build step that shrinks them.
 - Event dates are `YYYY-MM-DD`. "Today" is Pacific time.
 - Links in templates start with `/`. The build adds `/lssq-site/` (or the preview's folder) from `PATH_PREFIX`.
 - The brand rules (colors, type, logo use) are on the workshop's [brand page](https://sgordon1024.github.io/lssq/brand/).

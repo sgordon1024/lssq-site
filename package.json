@@ -6,11 +6,15 @@
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy",
+    "check": "node tools/check.mjs && eleventy --quiet",
+    "photos": "node tools/photos.mjs",
     "cms": "decap-server"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.8",
-    "decap-server": "3.11.6"
+    "decap-server": "3.11.6",
+    "js-yaml": "4.3.2",
+    "sharp": "0.35.5"
   },
   "engines": {
     "node": ">=20"
