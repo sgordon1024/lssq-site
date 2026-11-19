@@ -1,13 +1,15 @@
 // Checks the site's content before it can go live: `npm run check`.
 // Every event and the site's words are checked against the same rules as the editor
 // (the fields in src/admin/config.yml), plus a few more: dates in order, every photo
-// there, described, small enough and not saying where it was taken. `npm run check`
+// there, described, small enough and not saying where it was taken. It also checks the
+// newsletter templates in newsletters/. `npm run check`
 // then builds the site. The messages are for whoever is updating the site.
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import yaml from "js-yaml";
 import sharp from "sharp";
 import { ROOT, SRC, allPhotos, photoProblems, rel, PHOTO_TYPES, OTHER_TYPES, HEIC_TYPES } from "./photo-rules.mjs";
+import { loadTemplates, templateProblems } from "./newsletters.mjs";
 
 const problems = [];
 const error = (file, msg) => problems.push({ file, msg, level: "error" });
@@ -160,6 +162,11 @@ try {
   else throw e;
 }
 
+// --- Newsletter templates ---------------------------------------------------
+
+const templates = await loadTemplates();
+for (const t of templates) for (const msg of templateProblems(t)) error(t.file, msg);
+
 // --- Every photo file -------------------------------------------------------
 
 const photos = await allPhotos();
@@ -198,7 +205,7 @@ if (process.env.GITHUB_ACTIONS) {
   for (const p of problems) console.log(`::${p.level} file=${p.file}::${p.msg.replace(/\n/g, " ")}`);
 }
 
-const counted = `${eventFiles.length} events, the site's words and ${photos.length} photos`;
+const counted = `${eventFiles.length} events, the site's words, ${templates.length} newsletters and ${photos.length} photos`;
 if (errors.length) {
   console.log(`\n✗ ${errors.length} thing${errors.length === 1 ? "" : "s"} to fix in ${counted}. Nothing can go live until they're fixed.`);
   process.exitCode = 1;

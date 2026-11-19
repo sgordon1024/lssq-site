@@ -1,6 +1,6 @@
 # Updating the LSSQ site: a guide for AI assistants
 
-Read this before you change anything. Most people who ask for help here want to change what the site says: add an event, share a spot, swap a photo, fix some words. This guide covers that.
+Read this before you change anything. Most people who ask for help here want to change what the site says: add an event, share a spot, swap a photo, fix some words, or write the newsletter. This guide covers that.
 
 Changing the design or code is Steve Gordon's job, and the repo makes those changes wait for his OK. If that's what you're doing, the [README](README.md) covers how the site is built. The voice, privacy and check rules below still apply.
 
@@ -38,6 +38,7 @@ Two things can stop a publish:
 | Each event | `src/events/<name>.md`. Details at the top, a description below. The file name becomes the page address, `/events/<name>/`. |
 | The words on the home, story, contact and donate sections, the ribbon lines, the four pillars and the photos from past weekends | `src/_data/site.json` |
 | New photos | `src/img/uploads/` |
+| Newsletter templates | `newsletters/`. The `{{ }}` parts come from the site. The `[[ ]]` parts are for you to fill in. |
 | The rules for every field | `src/admin/config.yml`. Each field has a label and a hint. The check uses the same rules. |
 
 Past events move to "Where we've been" on their own once their last day is over. There's nothing to do.
@@ -92,6 +93,23 @@ Edit `src/_data/site.json`. Keep each ribbon line under about 40 letters. There 
 - **Only use photos LSSQ is allowed to use:** ones Jake or the community took, of people who are happy to be online. Never use photos found on the web.
 - **Swapping out stock photos is great.** Their credits say "Stock photo by ..., Unsplash". When he sends real ones, swap them in and update the description and credit.
 
+### Write a newsletter
+
+LSSQ's newsletter is an email Jake sends from his own Gmail, with everyone who signed up in BCC. You draft it, and he sends it.
+
+1. **Pick the template** in `newsletters/` that fits. `npm run newsletter` lists them:
+   - `next-weekend`: the main one each month, about a month out.
+   - `spot-drop`: when the exact spot is ready to share. Add the coordinates to the event first.
+   - `thank-you`: a few days after a weekend.
+   - `lead-something`: asking people to lead an activity.
+   - `change-of-plans`: new dates, a new spot, the weather or a cancellation. Update the event first.
+2. **Run `npm run newsletter -- <template>`.** It fills in the facts from the site for the next weekend, or the last one for a thank-you. Add an event's file name to pick another, like `npm run newsletter -- spot-drop baja-weekend`. If you can't run commands, read the template and fill in the `{{ }}` parts from the event yourself.
+3. **Fill in the `[[ ]]` parts.** Ask him for each, one at a time, or cut the line if he doesn't have it. Get the personal bits in his words, like what stood out and who to thank.
+4. **Make it sound like him.** It's his email to friends: warm, loose and a bit playful. Keep his words when he writes them. Short paragraphs, with links on their own line.
+5. **Send him the subject and the text** in the chat, ready to paste into a new Gmail message with everyone in BCC. If you can make Gmail drafts, make one, but never send it.
+
+A newsletter isn't a change to the site, so there's nothing to publish or save. If the news changes the site too, like new dates or the spot, make that change first, the usual way.
+
 ## LSSQ's voice
 
 Warm, playful and communal, like a friend inviting you along. Short sentences, talking to "you". The tagline sets the tone: "Different location every month. Same family every time."
@@ -108,6 +126,7 @@ Warm, playful and communal, like a friend inviting you along. Short sentences, t
 - Never remove the notes saying this is a sample and not LSSQ's official site. Steve takes those down when it becomes the real site.
 - Never change anything beyond content. If he asks for a design change (colors, layout, a new section), say that's Steve's area and suggest he mention it to Steve.
 - Never change who has access, or any settings.
+- Never send a newsletter or any email yourself, and never put the mailing list or anyone's email address in the project.
 
 ## The check
 

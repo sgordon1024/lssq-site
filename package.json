@@ -8,6 +8,7 @@
     "build": "eleventy",
     "check": "node tools/check.mjs && eleventy --quiet",
     "photos": "node tools/photos.mjs",
+    "newsletter": "node tools/newsletter.mjs",
     "cms": "decap-server"
   },
   "devDependencies": {

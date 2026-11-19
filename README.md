@@ -9,7 +9,7 @@ A sample site for Last Saturday Side Quest, built so Jake can update it without 
 
 **With an AI assistant (the main way).** Jake tells an assistant that can work on GitHub (Claude Code, Codex, Copilot and the like) what he wants. It follows [AGENTS.md](AGENTS.md): makes the change on a branch, runs `npm run check`, opens a pull request, sends him the preview link and publishes when he says so. `CLAUDE.md` and `GEMINI.md` point those tools at the same guide.
 
-**Who can publish what.** `main` only takes pull requests, and only once the **check** passes. Content (events, `site.json`, photos) can go live on that alone. Anything else needs Steve's review ([CODEOWNERS](.github/CODEOWNERS)), and GitHub asks him automatically. Steve's own code changes go in with an admin merge (`gh pr merge --admin`).
+**Who can publish what.** `main` only takes pull requests, and only once the **check** passes. Content (events, `site.json`, photos, newsletter templates) can go live on that alone. Anything else needs Steve's review ([CODEOWNERS](.github/CODEOWNERS)), and GitHub asks him automatically. Steve's own code changes go in with an admin merge (`gh pr merge --admin`).
 
 **With the editor (on hold).** The editor at `/admin/` works the same way, but it can't sign in until the helper below is set up. That waits until we know whether Jake wants a point-and-click editor as well. Its steps:
 
@@ -42,7 +42,9 @@ Past events move to "Where we've been" on their own. The site rebuilds every nig
 | `src/img/uploads/` | New photos |
 | `AGENTS.md` | The guide AI assistants follow to update the site (`CLAUDE.md` and `GEMINI.md` point to it) |
 | `HOW-TO-UPDATE.md` | The one-page how-to for Jake |
-| `tools/check.mjs` | `npm run check`: checks the content against the editor's rules and the photo rules, in plain words |
+| `tools/check.mjs` | `npm run check`: checks the content against the editor's rules and the photo rules, and the newsletter templates, in plain words |
+| `newsletters/` | Newsletter templates. `{{ }}` parts are filled from the site, `[[ ]]` parts by the assistant or Jake |
+| `tools/newsletter.mjs`, `newsletters.mjs` | `npm run newsletter -- <template> [event]`: drafts a newsletter from a template and the site. It only prints the draft. Jake sends it from his Gmail |
 | `tools/photos.mjs`, `photo-rules.mjs` | `npm run photos`: gets new photos ready (upright, at most 2000px and 1 MB, no location data, HEIC to JPEG on a Mac) |
 | `.github/CODEOWNERS` | Which changes need Steve's review (anything beyond content) |
 | `auth/` | The editor's sign-in helper, a small Cloudflare Worker |
