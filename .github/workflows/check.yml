@@ -30,7 +30,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ github.event.number }}
         run: |
-          other=$(gh pr diff "$PR" --name-only --repo "$GITHUB_REPOSITORY" | grep -v -E '^(src/events/[^/]+\.md|src/_data/site\.json|src/img/.+)$' || true)
+          other=$(gh pr diff "$PR" --name-only --repo "$GITHUB_REPOSITORY" | grep -v -E '^(src/events/[^/]+\.md|src/_data/site\.json|src/img/.+|newsletters/[^/]+\.md)$' || true)
           if [ -n "$other" ]; then
             echo "::notice::This changes more than content, so Steve needs to OK it before it can go live: $(echo $other)"
             {

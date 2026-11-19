@@ -28,6 +28,8 @@ Nothing goes live until you say so. Change your mind later? Say "undo that."
 - "Add these to the photos from past weekends." (attach the photos)
 - "The April weekend is cancelled. Take it off the site."
 - "Change the home page headline to ..."
+- "Write the newsletter for the March weekend."
+- "Write a thank-you email for Shastaween."
 
 ## Photos
 
@@ -36,6 +38,12 @@ Attach them in the chat. Big photos straight from your phone are fine, and the h
 Most assistants can't save photos from the chat. If yours can't, it sends you a link instead: tap it, tap **choose your files**, pick the photos, then tap **Commit changes** and tell it you're done.
 
 The assistant picks where they go and writes what's in each one. Just say who took them, and only share photos you have the OK to share.
+
+## Newsletters
+
+Ask the assistant to write one, like "write the newsletter for the March weekend." It fills in the dates, the place and the links from the site, asks you for the personal bits, and gives you the subject and the text. Paste it into a new Gmail message, put everyone in BCC and send it.
+
+There are five kinds: the next weekend, the spot drops, thanks for coming, lead something, and a change of plans.
 
 ## Anything else
 
