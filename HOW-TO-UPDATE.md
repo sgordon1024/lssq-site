@@ -9,6 +9,7 @@ Steve will set this up with you. It takes about 15 minutes.
 1. Make a free GitHub account, and Steve adds you to the site.
 2. Pick an AI assistant that can work on GitHub projects, like Claude Code, ChatGPT's Codex or GitHub Copilot, and connect it to your GitHub account.
 3. Point it at the project called **lssq-site**.
+4. Sign in to GitHub in your phone's web browser too, so adding photos from your phone just works.
 
 ## Every time
 
@@ -30,7 +31,11 @@ Nothing goes live until you say so. Change your mind later? Say "undo that."
 
 ## Photos
 
-Attach them in the chat. Big photos straight from your phone are fine. If the assistant can't take them from the chat, it sends you a page where you drag them in and press **Commit changes**. Tell it who took each one, and only share photos you have the OK to share.
+Attach them in the chat. Big photos straight from your phone are fine, and the hidden info saying where they were taken is removed for you.
+
+Most assistants can't save photos from the chat. If yours can't, it sends you a link instead: tap it, tap **choose your files**, pick the photos, then tap **Commit changes** and tell it you're done.
+
+The assistant picks where they go and writes what's in each one. Just say who took them, and only share photos you have the OK to share.
 
 ## Anything else
 
